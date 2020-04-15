@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *
+ * @ORM\Table(name="events")
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
