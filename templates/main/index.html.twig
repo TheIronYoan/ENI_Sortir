@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        <h1>ENI Sortir</h1>
-        <h2>Accueil</h2>
+{% extends 'base.html.twig' %}
 
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+{% block title %}Bienvenue{% endblock %}
 
-    </body>
-</html>
+{% block body %}
+    <div class="container">
+
+        <h1>Interface Demo</h1>
+        <a href=" {{  path('login')  }}" class="btn btn-primary">Login</a>
+        <br><br>
+        <a href=" {{  path('user_add')  }}" class="btn btn-primary">Ajout utilisateur</a>
+        <br><br>
+        <a href=" {{  path('CreateEvent')  }}" class="btn btn-primary">Creer  sortie</a>
+
+    </div>
+
+{% endblock %}
+
+

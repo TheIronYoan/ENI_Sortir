@@ -1,7 +1,9 @@
-<header>
+{% extends 'base.html.twig' %}
 
-</header>
-<body>
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <div class="container">
     <h1>Login</h1>
     <form method="post">
         <label for="username">Username:</label>
@@ -9,10 +11,7 @@
 
         <label for="password">Password</label>
         <input type="text" name="_Password" id="password">
-        <button type="submit">Login</button>
+        <button type="submit"  class="btn btn-primary">Login</button>
     </form>
-
-</body>
-<footer>
-
-</footer>
+    </div>
+{% endblock %}

@@ -1,10 +1,11 @@
-<!doctype html>
-<html lang="fr">
-<head>
-</head>
-<body>
-{{ form_start(eventForm) }}
-<input type="submit">
-{{ form_end(eventForm) }}
-</body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <div class="container">
+    {{ form_start(eventForm) }}
+    <input type="submit">
+    {{ form_end(eventForm) }}
+    </div>
+{%  endblock %}

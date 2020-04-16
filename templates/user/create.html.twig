@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(userForm) }}
+        {{form_widget(userForm) }}
+
+        <button type="submit"  class="btn btn-primary">Login</button>
+      {{ form_end(userForm) }}
+
+    </div>
+{%  endblock %}
