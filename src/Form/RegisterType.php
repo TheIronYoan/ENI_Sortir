@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use phpDocumentor\Reflection\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -14,10 +15,15 @@ class RegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $message="";
         $builder
             ->add('name')
             ->add('firstname')
-            ->add('username')
+            ->add('username',Type::class,
+                'options' => [
+                            'attr' => ['class' => 'password-field'],
+                            'attr' =>   ['maxlength' => '12']
+                    ])
             ->add('email',EmailType::class)
             ->add('password',RepeatedType::class, [
                 'type' => PasswordType::class,
