@@ -60,10 +60,36 @@ class Event
      */
     private $location;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="events")
+     * @ORM\JoinTable(
+     *  name="user_event",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="events_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *  }
+     * )
+     */
+    private $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizedEvents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organizer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="events")
+     */
+    private $campus;
+
     public function __construct()
     {
         $this->state = new ArrayCollection();
         $this->location = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,12 +109,12 @@ class Event
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart()
     {
         return $this->start;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setStart($start): self
     {
         $this->start = $start;
 
@@ -107,12 +133,12 @@ class Event
         return $this;
     }
 
-    public function getSignInLimit(): ?\DateTimeInterface
+    public function getSignInLimit()
     {
         return $this->signInLimit;
     }
 
-    public function setSignInLimit(\DateTimeInterface $signInLimit): self
+    public function setSignInLimit( $signInLimit): self
     {
         $this->signInLimit = $signInLimit;
 
@@ -201,6 +227,58 @@ class Event
                 $location->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function getOrganizer()
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(User $organizer): self
+    {
+        $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }
