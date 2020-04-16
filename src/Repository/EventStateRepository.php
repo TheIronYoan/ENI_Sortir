@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Etat;
+use App\Entity\EventState;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Etat|null find($id, $lockMode = null, $lockVersion = null)
- * @method Etat|null findOneBy(array $criteria, array $orderBy = null)
- * @method Etat[]    findAll()
- * @method Etat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EventState|null find($id, $lockMode = null, $lockVersion = null)
+ * @method EventState|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EventState[]    findAll()
+ * @method EventState[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EtatRepository extends ServiceEntityRepository
+class EventStateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Etat::class);
+        parent::__construct($registry, EventState::class);
     }
 
     // /**
-    //  * @return Etat[] Returns an array of Etat objects
+    //  * @return EventState[] Returns an array of EventState objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class EtatRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Etat
+    public function findOneBySomeField($value): ?EventState
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

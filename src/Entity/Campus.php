@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+
  * @ORM\Entity(repositoryClass="App\Repository\CampusRepository")
  */
 class Campus
@@ -19,101 +18,40 @@ class Campus
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
-    private $nom;
+    private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="siteorganisateur")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="campus")
      */
-    private $sorties;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participant", mappedBy="campus")
-     */
-    private $participants;
-
-    public function __construct()
-    {
-        $this->sorties = new ArrayCollection();
-        $this->participants = new ArrayCollection();
-    }
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(string $nom): self
+    public function setName(string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Sortie[]
-     */
-    public function getSorties(): Collection
+    public function getUser(): ?User
     {
-        return $this->sorties;
+        return $this->user;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function setUser(?User $user): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setSiteorganisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSorty(Sortie $sorty): self
-    {
-        if ($this->sorties->contains($sorty)) {
-            $this->sorties->removeElement($sorty);
-            // set the owning side to null (unless already changed)
-            if ($sorty->getSiteorganisateur() === $this) {
-                $sorty->setSiteorganisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Participant[]
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
-
-    public function addParticipant(Participant $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-            $participant->setCampus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(Participant $participant): self
-    {
-        if ($this->participants->contains($participant)) {
-            $this->participants->removeElement($participant);
-            // set the owning side to null (unless already changed)
-            if ($participant->getCampus() === $this) {
-                $participant->setCampus(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }
