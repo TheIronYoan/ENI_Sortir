@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\User;
+use App\Form\EventRegisterType;
 use App\Form\InsertEventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,14 +50,20 @@ class EventController extends AbstractController
         $idUser=3;
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $queryOrganized=$eventRepo->findBy(array('organizer'=>$idUser));
-        $dql="SELECT e FROM App\Entity\Event e";
-        $dql.=" WHERE e.organizer != :idUser";
+        $dql="SELECT e FROM App\Entity\Event e ";
+        $dql.="WHERE e.id NOT IN (SELECT e2.id FROM App\Entity\Event e2 LEFT JOIN e2.users u WHERE (e2.organizer=:idUser OR u.id=:idUser))";
         $query = $em -> createQuery($dql);
         $query->setParameter("idUser",$idUser);
         $queryNotJoined = $query->getResult();
 
+        $dql="SELECT e FROM App\Entity\Event e";
+        $dql.=" INNER JOIN e.users u WHERE e.organizer != :idUser AND u.id = :idUser";
+        $query = $em -> createQuery($dql);
+        $query->setParameter("idUser",$idUser);
+        $queryJoined = $query->getResult();
         return $this->render("/event/listEvent.html.twig",[
             "organized"=>$queryOrganized,
+            "joined"=>$queryJoined,
             "notJoined"=>$queryNotJoined
         ]);
 
@@ -67,12 +74,40 @@ class EventController extends AbstractController
      */
     public function viewEvent(Request $request,EntityManagerInterface $em,$id)
     {
+        $user = new User();
+        $idUser=3;
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $query=$eventRepo->findOneBy(['id'=>$id]);
+        $eventForm = $this->createForm(EventRegisterType::class,$user);
+        $eventForm->handleRequest($request);
 
+        $isJoinable=true;
+        if($query->getOrganizer()->getId()==$idUser){
+            $isJoinable=false;
+        }
+        foreach($query->getUsers() as $eventUser){
+            if($eventUser->getId()==$idUser){
+                $isJoinable=false;
+            }
+        }
+        if($eventForm->isSubmitted()){
+            if($isJoinable){
+                $userRepo= $this->getDoctrine()->getRepository(User::class);
+                $user=$userRepo->findOneBy(['id'=>$idUser]);
+                $user->addEvent($query);
+                $em->persist($user);
+                $em->flush();
+            }
+            return $this->redirectToRoute("ListEvent");
+        }
         return $this->render("/event/viewEvent.html.twig",[
-            "Event"=>$query,
+            "isJoinable"=>$isJoinable,
+            "eventForm"=>$eventForm->CreateView(),
+            "Event"=>$query
         ]);
 
     }
+
+
+
 }
