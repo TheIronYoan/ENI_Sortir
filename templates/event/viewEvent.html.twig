@@ -10,5 +10,18 @@
     <p>Maximum {{ Event.maxUsers }} personnes</p>
     <p>Date limite d'inscription: {{ Event.signInLimit|date('Y-m-d H:i') }}</p>
     </br>
+    {%   if isOrganizer == false %}
+        {%   if isJoined == false %}
+            {{ form_start(eventForm) }}
+                <input type="submit" value="Rejoindre!">
+            {{ form_end(eventForm) }}
+        {% endif %}
+        {%   if isJoined == true %}
+            {{ form_start(eventForm) }}
+            <input type="submit" value="Quitter!">
+            {{ form_end(eventForm) }}
+        {% endif %}
+    {% endif %}
     <a href="/event/ListEvent">Retour</a>
+
 {% endblock %}

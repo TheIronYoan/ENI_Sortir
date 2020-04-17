@@ -8,7 +8,11 @@
     {% for e in organized%}
         <a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
     {% endfor %}
-    <h3>Sorties à rejoindre</h3>
+    <h3>Sorties Rejoints</h3>
+    {% for e in joined%}
+        <a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
+    {% endfor %}
+    <h3>Sorties à Rejoindre</h3>
     {% for e in notJoined%}
         <a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
     {% endfor %}
