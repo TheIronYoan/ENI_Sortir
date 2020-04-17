@@ -10,33 +10,8 @@
 
 </br>
 {{ form_start(eventForm) }}
-<div class="my-custom-class-for-errors">
-    {{ form_errors(eventForm) }}
-</div>
-</br>
-<div>
-    {{ form_row(eventForm.name) }}
-</div>
-</br>
-<div class="col">
-    {{ form_row(eventForm.description) }}
-</div>
-</br>
-<div class="col">
-    {{ form_row(eventForm.maxUsers) }}
-</div>
-</br>
-<div class="col">
-    {{ form_row(eventForm.duration) }}
-</div>
-</br>
-<div class="col">
-    {{ form_row(eventForm.start) }}
-</div>
-</br>
-<div class="col">
-    {{ form_row(eventForm.signInLimit) }}
-</div>
+ {{ form_errors(eventForm) }}
+ {{ form_widget (eventForm) }}
 <input type="submit">
 {{ form_end(eventForm) }}
 {% endblock %}

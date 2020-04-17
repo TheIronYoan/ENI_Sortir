@@ -19,11 +19,11 @@ class InsertEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('start',DateTimeType::class)
-            ->add('duration', NumberType::class)
-            ->add('signInLimit',DateTimeType::class)
-            ->add('maxUsers', NumberType::class)
+            ->add('name', TextType::class,['label'=> 'Nom' ])
+            ->add('start',DateTimeType::class,['label'=> 'Débute le' ])
+            ->add('duration', NumberType::class,['label'=> 'Durée' ])
+            ->add('signInLimit',DateTimeType::class,['label'=> 'Date limite d\'inscription' ])
+            ->add('maxUsers', NumberType::class,['label'=> 'Nombre maximum de participants' ])
             ->add('description', TextType::class)
         ;
     }
