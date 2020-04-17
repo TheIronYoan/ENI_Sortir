@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class loginController
  * @package App\Controller
- * @Route("/login")
+ * @Route("/login" , name="" )
  */
 class loginController extends AbstractController
 {
@@ -19,9 +19,12 @@ class loginController extends AbstractController
      */
     public function login()
     {
+        $this->addFlash('succes','Connexion réussie');
         return $this ->render("user/login.html.twig");
+        
     }
     /**
      * @Route("/logout", name="logout")
      */
+    public function logout()  {  $this->addFlash('succes','Déconnecté');   }
 }

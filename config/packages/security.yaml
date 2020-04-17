@@ -21,7 +21,7 @@ security:
                 target: home
     encoders:
         App\Entity\User:
-            algorithm: bcrypt
+            algorithm: auto
 
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }

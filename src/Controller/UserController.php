@@ -43,17 +43,13 @@ class UserController extends AbstractController
         {
             $user = new User();
             $userForm = $this->createForm(RegisterType::class,$user);
-
             $userForm->handleRequest($request);
-
             if($userForm->isSubmitted() && $userForm->isValid()){
-
                 $hashed=$encoder->encodePassword($user,$user->getPassword());
                 $user->setPassword($hashed);
-
             $em->persist($user);
             $em->flush();
-
+                $this->addFlash('success','Ajout réussi');
             return $this->redirectToRoute("user_add");
             }
 

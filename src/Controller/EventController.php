@@ -26,7 +26,7 @@ class EventController extends AbstractController
             return $this->redirectToRoute("CreateEvent");
         }
 
-        return $this->render('user/createEvent.html.twig',[
+        return $this->render('event/createEvent.html.twig',[
             "eventForm" =>$eventForm->createView()
         ]);
     }
