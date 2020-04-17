@@ -81,27 +81,35 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(EventRegisterType::class,$user);
         $eventForm->handleRequest($request);
 
-        $isJoinable=true;
+        $isOrganizer=false;
         if($query->getOrganizer()->getId()==$idUser){
-            $isJoinable=false;
+            $isOrganizer=true;
         }
+        $isJoined=false;
         foreach($query->getUsers() as $eventUser){
             if($eventUser->getId()==$idUser){
-                $isJoinable=false;
+                $isJoined=true;
             }
         }
         if($eventForm->isSubmitted()){
-            if($isJoinable){
+            if(!$isJoined && !$isOrganizer){
                 $userRepo= $this->getDoctrine()->getRepository(User::class);
                 $user=$userRepo->findOneBy(['id'=>$idUser]);
                 $user->addEvent($query);
+                $em->persist($user);
+                $em->flush();
+            }elseif ($isJoined){
+                $userRepo= $this->getDoctrine()->getRepository(User::class);
+                $user=$userRepo->findOneBy(['id'=>$idUser]);
+                $user->removeEvent($query);
                 $em->persist($user);
                 $em->flush();
             }
             return $this->redirectToRoute("ListEvent");
         }
         return $this->render("/event/viewEvent.html.twig",[
-            "isJoinable"=>$isJoinable,
+            "isOrganizer"=>$isOrganizer,
+            "isJoined"=>$isJoined,
             "eventForm"=>$eventForm->CreateView(),
             "Event"=>$query
         ]);
