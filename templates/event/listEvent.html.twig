@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <h1>Liste des Sorties</h1>
+    <h3>Sorties que vous organisez</h3>
+    {% for e in organized%}
+        <a href="Sortie/{{ e.getId() }}">{{ e.getName() }}</a></br>
+    {% endfor %}
+    <h3>Sorties à rejoindre</h3>
+    {% for e in notJoined%}
+        <a href="Sortie/{{ e.getId() }}">{{ e.getName() }}</a></br>
+    {% endfor %}
+{% endblock %}
