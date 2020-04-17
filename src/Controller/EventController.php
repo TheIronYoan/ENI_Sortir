@@ -61,4 +61,18 @@ class EventController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/event/ViewEvent/{id}", name="ViewEvent")
+     */
+    public function viewEvent(Request $request,EntityManagerInterface $em,$id)
+    {
+        $eventRepo= $this->getDoctrine()->getRepository(Event::class);
+        $query=$eventRepo->findOneBy(['id'=>$id]);
+
+        return $this->render("/event/viewEvent.html.twig",[
+            "Event"=>$query,
+        ]);
+
+    }
 }

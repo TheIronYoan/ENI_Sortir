@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <h1>{{ Event.name }}</h1>
+    <p>Début: {{ Event.start|date('Y-m-d H:i') }}</p>
+    <p>Description: {{ Event.description }}</p>
+    <p>Durée: {{ Event.duration }} minutes</p>
+    <p>Maximum {{ Event.maxUsers }} personnes</p>
+    <p>Date limite d'inscription: {{ Event.signInLimit|date('Y-m-d H:i') }}</p>
+    </br>
+    <a href="/event/ListEvent">Retour</a>
+{% endblock %}
