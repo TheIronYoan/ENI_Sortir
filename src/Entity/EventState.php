@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,9 +26,16 @@ class EventState
     private $label;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="state")
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="state")
      */
-    private $event;
+    private $events;
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+        $this->events = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -45,15 +54,36 @@ class EventState
         return $this;
     }
 
-    public function getEvent(): ?Event
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
     {
-        return $this->event;
+        return $this->events;
     }
 
-    public function setEvent(?Event $event): self
+    public function addEvent(Event $event): self
     {
-        $this->event = $event;
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setState($this);
+        }
 
         return $this;
     }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getState() === $this) {
+                $event->setState(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

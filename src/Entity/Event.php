@@ -50,10 +50,6 @@ class Event
      */
     private $description;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EventState", mappedBy="event")
-     */
-    private $state;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="event")
@@ -84,6 +80,11 @@ class Event
      * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="events")
      */
     private $campus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\EventState", inversedBy="events")
+     */
+    private $state;
 
     public function __construct()
     {
@@ -169,36 +170,6 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|EventState[]
-     */
-    public function getState(): Collection
-    {
-        return $this->state;
-    }
-
-    public function addState(EventState $state): self
-    {
-        if (!$this->state->contains($state)) {
-            $this->state[] = $state;
-            $state->setEvent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeState(EventState $state): self
-    {
-        if ($this->state->contains($state)) {
-            $this->state->removeElement($state);
-            // set the owning side to null (unless already changed)
-            if ($state->getEvent() === $this) {
-                $state->setEvent(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Location[]
@@ -279,6 +250,18 @@ class Event
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState(?EventState $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

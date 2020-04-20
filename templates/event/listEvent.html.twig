@@ -5,15 +5,54 @@
 {% block body %}
     <h1>Liste des Sorties</h1>
     <h3>Sorties que vous organisez</h3>
+    <table>
     {% for e in organized%}
-        <a href="/event/EditEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
+        <tr><td><a href="/event/EditEvent/{{ e.getId() }}">{{ e.getName() }}</a></td>
+            <td>
+                {% if e.start.timestamp>date().timestamp %}
+                    {{ e.getState().getLabel() }}
+                {% endif %}
+                {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp>date().timestamp %}
+                    En Cours
+                {% endif %}
+                {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp<date().timestamp %}
+                    Terminée
+                {% endif %}
+            </td></tr>
     {% endfor %}
+    </table>
     <h3>Sorties Rejoints</h3>
+    <table>
     {% for e in joined%}
-        <a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
+        <tr><td><a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></td>
+            <td>
+                {% if e.start.timestamp>date().timestamp %}
+                    {{ e.getState().getLabel() }}
+                {% endif %}
+                {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp>date().timestamp %}
+                    En Cours
+                {% endif %}
+                {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp<date().timestamp %}
+                    Terminée
+                {% endif %}
+            </td></tr>
     {% endfor %}
+    </table>
     <h3>Sorties à Rejoindre</h3>
+    <table>
     {% for e in notJoined%}
-        <a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
+        <tr><td><a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></td>
+            <td>
+                {% if e.start.timestamp>date().timestamp %}
+                    {{ e.getState().getLabel() }}
+                {% endif %}
+                {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp>date().timestamp %}
+                    En Cours
+                {% endif %}
+                {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp<date().timestamp %}
+                    Terminée
+                {% endif %}
+            </td></tr>
     {% endfor %}
+    </table>
 {% endblock %}

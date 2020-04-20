@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\User;
+use App\Entity\EventState;
 use App\Form\EventRegisterType;
 use App\Form\InsertEventType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,6 +31,9 @@ class EventController extends AbstractController
             if($event->getSignInLimit()<=$event->getStart()){
                 $organizer=$this->getUser();
                 $event->setOrganizer($organizer);
+                $stateRepo= $this->getDoctrine()->getRepository(EventState::class);
+                $event->setState($stateRepo->findOneBy(['id'=>$event->getState()->getId()]));
+
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
@@ -51,13 +55,13 @@ class EventController extends AbstractController
     public function listEvents(Request $request,EntityManagerInterface $em)
     {
         if($this->getUser()==null){
-            return $this->redirectToRoute("login");
+            return $this->redirectToRoute("ListEvent");
         }
         $idUser=$this->getUser()->getId();
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $queryOrganized=$eventRepo->findBy(array('organizer'=>$idUser));
         $dql="SELECT e FROM App\Entity\Event e ";
-        $dql.="WHERE e.id NOT IN (SELECT e2.id FROM App\Entity\Event e2 LEFT JOIN e2.users u WHERE (e2.organizer=:idUser OR u.id=:idUser)) AND DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
+        $dql.="WHERE e.id NOT IN (SELECT e2.id FROM App\Entity\Event e2 LEFT JOIN e2.users u WHERE (e2.organizer=:idUser OR u.id=:idUser)) AND DATE_ADD(e.start,1,'month') > CURRENT_DATE() AND e.state != 1";
         $query = $em -> createQuery($dql);
         $query->setParameter("idUser",$idUser);
         $queryNotJoined = $query->getResult();
@@ -156,12 +160,14 @@ class EventController extends AbstractController
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $event=$eventRepo->findOneBy(['id'=>$id]);
         if($event->getOrganizer()->getId()!=$this->getUser()->getId()){
-            return $this->redirectToRoute("ListEvent");
+            return $this->redirectToRoute("UserListEvent");
         }
         $eventForm = $this->createForm(InsertEventType::class,$event);
         $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()){
             if($event->getSignInLimit()<=$event->getStart()){
+                $stateRepo= $this->getDoctrine()->getRepository(EventState::class);
+                $event->setState($stateRepo->findOneBy(['id'=>$event->getState()->getId()]));
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
