@@ -9,8 +9,19 @@
     <p>Durée: {{ Event.duration }} minutes</p>
     <p>Maximum {{ Event.maxUsers }} personnes</p>
     <p>Date limite d'inscription: {{ Event.signInLimit|date('Y-m-d H:i') }}</p>
+    <p>Etat:
+        {% if Event.start.timestamp>date().timestamp %}
+            {{ Event.getState().getLabel() }}
+        {% endif %}
+        {% if Event.start.timestamp<date().timestamp and Event.start|date_modify("+"~Event.duration~" minute").timestamp>date().timestamp %}
+            En Cours
+        {% endif %}
+        {% if Event.start.timestamp<date().timestamp and Event.start|date_modify("+"~Event.duration~" minute").timestamp<date().timestamp %}
+            Terminée
+        {% endif %}
+    </p>
     </br>
-    {%   if isOrganizer == false and isJoinable == true%}
+    {%   if isOrganizer == false and isJoinable == true and Event.getState().getId()==2 %}
         {%   if isJoined == false %}
             {{ form_start(eventForm) }}
                 <input type="submit" value="Rejoindre!">
@@ -22,7 +33,7 @@
             {{ form_end(eventForm) }}
         {% endif %}
     {% endif %}
-    {% if isJoinable == false%}
+    {% if isJoinable == false or Event.getState().getId()!=2 %}
         Il n'est plus possible de s'inscrire a cette sortie.
     {% endif %}
     <a href="/event/ListEvent">Retour</a>

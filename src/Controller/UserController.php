@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegisterType;
 
 use App\Form\RegisterTypetType;
+use App\Form\UserInfoType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,6 +55,32 @@ class UserController extends AbstractController
             }
 
         return $this->render('user/create.html.twig',[
+            "userForm" =>$userForm->createView()
+        ]);
+    }
+    /**
+     * Class UserController
+     * @Route("/show", name="show")
+     */
+    public function showInfo(
+                        Request $request,
+                        EntityManagerInterface $em,
+                        UserPasswordEncoderInterface $encoder
+                        )
+    {
+        $user= $this->getUser();
+        $userForm = $this->createForm(UserInfoType::class,$user);
+        $userForm->handleRequest($request);
+         if($userForm->isSubmitted() && $userForm->isValid()){
+             $hashed=$encoder->encodePassword($user,$user->getPassword());
+             $user->setPassword($hashed);
+             $em->persist($user);
+             $em->flush();
+             $this->addFlash('success','modification réussi');
+             return $this->redirectToRoute("user_show");
+         }
+
+        return $this->render('user/showUserInfo.html.twig',[
             "userForm" =>$userForm->createView()
         ]);
     }

@@ -5,8 +5,20 @@
 {% block body %}
     <h1>Liste des Sorties</h1>
     <h3>Sorties disponibles</h3>
-    {% for e in List%}
-        <a href="/event/EditEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
-    {% endfor %}
-
+    <table>
+        {% for e in List%}
+            <tr><td><a href="/event/EditEvent/{{ e.getId() }}">{{ e.getName() }}</a></td>
+                <td>
+                    {% if e.start.timestamp>date().timestamp %}
+                        {{ e.getState().getLabel() }}
+                    {% endif %}
+                    {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp>date().timestamp %}
+                        En Cours
+                    {% endif %}
+                    {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp<date().timestamp %}
+                        Terminée
+                    {% endif %}
+                </td></tr>
+        {% endfor %}
+    </table>
 {% endblock %}

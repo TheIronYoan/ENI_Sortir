@@ -53,7 +53,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
      */
     private $administrator;
 
