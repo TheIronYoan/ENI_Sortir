@@ -23,7 +23,11 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#">Sorties</a>
             </li>
-
+            {% if app.user != null %}
+            <li class="nav-item active">
+                <a class="nav-link" href="event/CreateEvent">Creer sortie</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
     {% if app.user != null %}
