@@ -12,11 +12,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * Class UserController
+ * @Route("/event")
+ */
 class EventController extends AbstractController
 {
     /**
-     * @Route("/event/CreateEvent", name="CreateEvent")
+     * @Route("/CreateEvent", name="CreateEvent")
      */
     public function createEvent(Request $request,EntityManagerInterface $em)
     {
@@ -50,7 +53,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/user/event/ListEvent", name="UserListEvent")
+     * @Route("/ListEvent", name="UserListEvent")
      */
     public function listEvents(Request $request,EntityManagerInterface $em)
     {
@@ -79,7 +82,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/event/ListEvent", name="ListEvent")
+     * @Route("/ListEvent", name="ListEvent")
      */
     public function noUserListEvents(Request $request,EntityManagerInterface $em)
     {
@@ -94,7 +97,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/event/ViewEvent/{id}", name="ViewEvent")
+     * @Route("/ViewEvent/{id}", name="ViewEvent")
      */
     public function viewEvent(Request $request,EntityManagerInterface $em,$id)
     {
@@ -149,7 +152,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/event/EditEvent/{id}", name="EditEvent")
+     * @Route("/EditEvent/{id}", name="EditEvent")
      */
     public function editEvent(Request $request,EntityManagerInterface $em,$id)
     {

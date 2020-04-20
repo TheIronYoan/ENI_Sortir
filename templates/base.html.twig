@@ -21,20 +21,20 @@
         <ul class="navbar-nav">
 
             <li class="nav-item active">
-                <a class="nav-link" href="#">Sorties</a>
+                <a class="nav-link" href="{{ path('ListEvent') }}">Sorties</a>
             </li>
             {% if app.user != null %}
             <li class="nav-item active">
-                <a class="nav-link" href="event/CreateEvent">Creer sortie</a>
+                <a class="nav-link" href="{{ path('CreateEvent') }}">Creer sortie</a>
             </li>
             {% endif %}
         </ul>
     </div>
     {% if app.user != null %}
-        <a class="navbar-brand" href="logout">Logout</a>
-        <a class="navbar-brand" href="#">{{   app.user.getUsername() }} </a>
+        <a class="navbar-brand" href="{{ path('logout') }}">Logout</a>
+        <a class="navbar-brand" href="user/show">{{   app.user.getUsername() }} </a>
     {% else %}
-        <a class="navbar-brand" href="login">Login</a>
+        <a class="navbar-brand" href="{{ path('login') }}">Login</a>
         <a class="navbar-brand" href="user/add">s'inscrire</a>
     {% endif %}
 
