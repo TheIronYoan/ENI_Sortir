@@ -6,7 +6,7 @@
     <h1>Liste des Sorties</h1>
     <h3>Sorties que vous organisez</h3>
     {% for e in organized%}
-        <a href="/event/ViewEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
+        <a href="/event/EditEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
     {% endfor %}
     <h3>Sorties Rejoints</h3>
     {% for e in joined%}
