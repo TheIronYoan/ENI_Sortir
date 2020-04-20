@@ -51,13 +51,13 @@ class EventController extends AbstractController
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $queryOrganized=$eventRepo->findBy(array('organizer'=>$idUser));
         $dql="SELECT e FROM App\Entity\Event e ";
-        $dql.="WHERE e.id NOT IN (SELECT e2.id FROM App\Entity\Event e2 LEFT JOIN e2.users u WHERE (e2.organizer=:idUser OR u.id=:idUser))";
+        $dql.="WHERE e.id NOT IN (SELECT e2.id FROM App\Entity\Event e2 LEFT JOIN e2.users u WHERE (e2.organizer=:idUser OR u.id=:idUser)) AND DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
         $query = $em -> createQuery($dql);
         $query->setParameter("idUser",$idUser);
         $queryNotJoined = $query->getResult();
 
         $dql="SELECT e FROM App\Entity\Event e";
-        $dql.=" INNER JOIN e.users u WHERE e.organizer != :idUser AND u.id = :idUser";
+        $dql.=" INNER JOIN e.users u WHERE e.organizer != :idUser AND u.id = :idUser AND DATE_ADD(e.start,1,'month') > CURRENT_DATE()";
         $query = $em -> createQuery($dql);
         $query->setParameter("idUser",$idUser);
         $queryJoined = $query->getResult();
