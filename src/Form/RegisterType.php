@@ -34,7 +34,7 @@ class RegisterType extends AbstractType
                 'second_options' => ['label' => 'Confirmation mot de passe'],
             ])
             ->add('phone',null,['label'    => 'Téléphone'])
-            ->add('administrator',CheckboxType::class, ['label' => 'Administrateur' ] )
+            ->add('administrator',CheckboxType::class, ['label' => 'Administrateur', 'required'   => false, ] )
         ;
     }
 
