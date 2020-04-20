@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
 class loginController extends AbstractController
@@ -13,14 +14,15 @@ class loginController extends AbstractController
      * @return mixed
      * @Route("/login", name="login")
      */
-    public function login()
+    public function login(AuthenticationUtils $authenticationUtils)
     {
-        $this->addFlash('success','Connexion réussie');
+
         return $this ->render("user/login.html.twig");
         
     }
+
     /**
      * @Route("/logout", name="logout")
      */
-    public function logout()  {  $this->addFlash('success','Déconnecté');   }
+    public function logout()  {    }
 }
