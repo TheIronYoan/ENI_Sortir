@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <h1>Liste des Sorties</h1>
+    <h3>Sorties disponibles</h3>
+    {% for e in List%}
+        <a href="/event/EditEvent/{{ e.getId() }}">{{ e.getName() }}</a></br>
+    {% endfor %}
+
+{% endblock %}

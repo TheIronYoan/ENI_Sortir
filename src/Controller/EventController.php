@@ -19,6 +19,9 @@ class EventController extends AbstractController
      */
     public function createEvent(Request $request,EntityManagerInterface $em)
     {
+        if($this->getUser()==null){
+            return $this->redirectToRoute("login");
+        }
         $dateIsGood=true;
         $event = new Event();
         $eventForm = $this->createForm(InsertEventType::class,$event);
@@ -30,7 +33,7 @@ class EventController extends AbstractController
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
-                return $this->redirectToRoute("ListEvent");
+                return $this->redirectToRoute("UserListEvent");
             }else{
                 $dateIsGood=false;
             }
@@ -43,10 +46,13 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/event/ListEvent", name="ListEvent")
+     * @Route("/user/event/ListEvent", name="UserListEvent")
      */
     public function listEvents(Request $request,EntityManagerInterface $em)
     {
+        if($this->getUser()==null){
+            return $this->redirectToRoute("login");
+        }
         $idUser=$this->getUser()->getId();
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $queryOrganized=$eventRepo->findBy(array('organizer'=>$idUser));
@@ -66,7 +72,21 @@ class EventController extends AbstractController
             "joined"=>$queryJoined,
             "notJoined"=>$queryNotJoined
         ]);
+    }
 
+    /**
+     * @Route("/event/ListEvent", name="ListEvent")
+     */
+    public function noUserListEvents(Request $request,EntityManagerInterface $em)
+    {
+        $dql="SELECT e FROM App\Entity\Event e ";
+        $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
+        $query = $em -> createQuery($dql);
+        $list = $query->getResult();
+
+        return $this->render("/event/noUserListEvent.html.twig",[
+            "List"=>$list
+        ]);
     }
 
     /**
@@ -74,6 +94,9 @@ class EventController extends AbstractController
      */
     public function viewEvent(Request $request,EntityManagerInterface $em,$id)
     {
+        if($this->getUser()==null){
+            return $this->redirectToRoute("login");
+        }
         $user = $this->getUser();
         $idUser=$user->getId();
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
@@ -90,6 +113,10 @@ class EventController extends AbstractController
             if($eventUser->getId()==$idUser){
                 $isJoined=true;
             }
+        }
+        $isJoinable=true;
+        if($query->getSignInLimit()<new \DateTime('now')){
+            $isJoinable=false;
         }
         if($eventForm->isSubmitted()){
             if(!$isJoined && !$isOrganizer){
@@ -110,6 +137,7 @@ class EventController extends AbstractController
         return $this->render("/event/viewEvent.html.twig",[
             "isOrganizer"=>$isOrganizer,
             "isJoined"=>$isJoined,
+            "isJoinable"=>$isJoinable,
             "eventForm"=>$eventForm->CreateView(),
             "Event"=>$query
         ]);
@@ -121,6 +149,9 @@ class EventController extends AbstractController
      */
     public function editEvent(Request $request,EntityManagerInterface $em,$id)
     {
+        if($this->getUser()==null){
+            return $this->redirectToRoute("login");
+        }
         $dateIsGood=true;
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $event=$eventRepo->findOneBy(['id'=>$id]);
@@ -134,7 +165,7 @@ class EventController extends AbstractController
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
-                return $this->redirectToRoute("ListEvent");
+                return $this->redirectToRoute("UserListEvent");
             }else{
                 $dateIsGood=false;
             }
@@ -145,8 +176,5 @@ class EventController extends AbstractController
             "isDateGood" =>$dateIsGood
         ]);
     }
-
-
-
 
 }
