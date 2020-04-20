@@ -27,7 +27,7 @@
         </ul>
     </div>
     {% if app.user != null %}
-        <a class="navbar-brand" href="logout">Logout</a>
+        <a class="navbar-brand" href="{{ path('logout') }}">Logout</a>
         <a class="navbar-brand" href="#">{{   app.user.getUsername() }} </a>
     {% else %}
         <a class="navbar-brand" href="login">Login</a>

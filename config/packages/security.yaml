@@ -19,10 +19,11 @@ security:
             logout:
                 path: logout
                 target: home
+
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 604800 # 1 semaine
-                path:     / #chemin sur lequelle le cookie va être efficace, ici, su tout le site
+                path:     / #chemin sur lequel le cookie va être efficace, ici, su tout le site
     encoders:
         App\Entity\User:
             algorithm: auto
