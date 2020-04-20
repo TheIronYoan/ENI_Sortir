@@ -22,9 +22,10 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
+ * @ORM\Column(type="string", length=50)
+ */
     private $name;
+
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -70,6 +71,8 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="organizer")
      */
     private $organizedEvents;
+
+    private $userRoles=array('ROLE_USER');
 
     public function __construct()
     {
@@ -202,7 +205,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return $this->userRoles;
     }
 
     public function getSalt()

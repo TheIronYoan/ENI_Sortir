@@ -15,12 +15,11 @@ class loginController extends AbstractController
      */
     public function login()
     {
-        $this->addFlash('success','Connexion réussie');
         return $this ->render("user/login.html.twig");
         
     }
     /**
      * @Route("/logout", name="logout")
      */
-    public function logout()  {  $this->addFlash('success','Déconnecté');   }
+    public function logout()  {}
 }
