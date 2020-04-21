@@ -32,11 +32,8 @@
     </div>
     {% if app.user != null %}
         <a class="navbar-brand" href="{{ path('logout') }}">Logout</a>
-<<<<<<< HEAD
-        <a class="navbar-brand" href="#">{{   app.user.getUsername() }} </a>
-=======
         <a class="navbar-brand" href="user/show">{{   app.user.getUsername() }} </a>
->>>>>>> 58c6ca54ae775a6f2132e620a40c0f57f12d9694
+
     {% else %}
         <a class="navbar-brand" href="{{ path('login') }}">Login</a>
         <a class="navbar-brand" href="user/add">s'inscrire</a>

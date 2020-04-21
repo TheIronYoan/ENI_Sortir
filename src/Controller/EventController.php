@@ -12,14 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class UserController
- * @Route("/event")
- */
+
 class EventController extends AbstractController
 {
     /**
-     * @Route("/CreateEvent", name="CreateEvent")
+     * @Route("/User/CreateEvent", name="User_CreateEvent")
      */
     public function createEvent(Request $request,EntityManagerInterface $em)
     {
@@ -53,7 +50,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/ListEvent", name="UserListEvent")
+     * @Route("/User/ListEvent", name="User_ListEvent")
      */
     public function listEvents(Request $request,EntityManagerInterface $em)
     {
