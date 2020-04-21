@@ -130,7 +130,6 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -207,6 +206,15 @@ class User implements UserInterface
     {
         return $this->userRoles;
     }
+
+
+    public function setUserRoles(array $userRoles): self
+    {
+        $this->userRoles = $userRoles;
+        return $this;
+    }
+
+
 
     public function getSalt()
     {
