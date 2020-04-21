@@ -78,6 +78,42 @@ class EventController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/user/event/edit/{id}", name="user_event_edit")
+     */
+    public function editEvent(Request $request,EntityManagerInterface $em,$id)
+    {
+        if($this->getUser()==null){
+            return $this->redirectToRoute("login");
+        }
+        $dateIsGood=true;
+        $eventRepo= $this->getDoctrine()->getRepository(Event::class);
+        $event=$eventRepo->findOneBy(['id'=>$id]);
+        if($event->getOrganizer()->getId()!=$this->getUser()->getId()){
+            return $this->redirectToRoute("user_event_list");
+        }
+        $eventForm = $this->createForm(InsertEventType::class,$event);
+        $eventForm->handleRequest($request);
+        if($eventForm->isSubmitted()){
+            if($event->getSignInLimit()<=$event->getStart()){
+                $stateRepo= $this->getDoctrine()->getRepository(EventState::class);
+                $event->setState($stateRepo->findOneBy(['id'=>$event->getState()->getId()]));
+                $em->persist($event);
+                $em->flush();
+                //return $this->redirectToRoute("index");
+                return $this->redirectToRoute("user_event_list");
+            }else{
+                $dateIsGood=false;
+            }
+        }
+
+        return $this->render('event/createEvent.html.twig',[
+            "eventForm" =>$eventForm->createView(),
+            "isDateGood" =>$dateIsGood
+        ]);
+    }
+
     /**
      * @Route("/event/list", name="event_list")
      */
@@ -149,41 +185,6 @@ class EventController extends AbstractController
             "Event"=>$query
         ]);
 
-    }
-
-    /**
-     * @Route("/event/edit/{id}", name="event_edit")
-     */
-    public function editEvent(Request $request,EntityManagerInterface $em,$id)
-    {
-        if($this->getUser()==null){
-            return $this->redirectToRoute("login");
-        }
-        $dateIsGood=true;
-        $eventRepo= $this->getDoctrine()->getRepository(Event::class);
-        $event=$eventRepo->findOneBy(['id'=>$id]);
-        if($event->getOrganizer()->getId()!=$this->getUser()->getId()){
-            return $this->redirectToRoute("user_event_list");
-        }
-        $eventForm = $this->createForm(InsertEventType::class,$event);
-        $eventForm->handleRequest($request);
-        if($eventForm->isSubmitted()){
-            if($event->getSignInLimit()<=$event->getStart()){
-                $stateRepo= $this->getDoctrine()->getRepository(EventState::class);
-                $event->setState($stateRepo->findOneBy(['id'=>$event->getState()->getId()]));
-                $em->persist($event);
-                $em->flush();
-                //return $this->redirectToRoute("index");
-                return $this->redirectToRoute("user_event_list");
-            }else{
-                $dateIsGood=false;
-            }
-        }
-
-        return $this->render('event/createEvent.html.twig',[
-            "eventForm" =>$eventForm->createView(),
-            "isDateGood" =>$dateIsGood
-        ]);
     }
 
 }

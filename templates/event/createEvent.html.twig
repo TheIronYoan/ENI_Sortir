@@ -1,22 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block title %}Bienvenue{% endblock %}
 
-{% block body %}
-<h1>Créer une Sortie!</h1>
+{% block bodyuser %}
+
+<div class="container" style="background-color: #f6f6f6;padding:15px;">
+    <h3 class="text-center">
+        Créer une Sortie!
+    </h3>
 {% if isDateGood == false %}
     <p>La date de fin d'inscription est superieur a la date de debut de la sortie!</p>
 {% endif %}
 
 </br>
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-8">
-        {{ form_start(eventForm) }}
-         {{ form_errors(eventForm) }}
-         {{ form_widget (eventForm) }}
-        <input type="submit">
-        {{ form_end(eventForm) }}
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-8">
+            {{ form_start(eventForm) }}
+             {{ form_errors(eventForm) }}
+             {{ form_widget (eventForm) }}
+            <input type="submit">
+            {{ form_end(eventForm) }}
+        </div>
     </div>
 </div>
 {% endblock %}

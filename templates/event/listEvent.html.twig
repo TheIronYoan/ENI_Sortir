@@ -1,11 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block title %}Bienvenue{% endblock %}
 
-{% block body %}
-    <h1>Liste des Sorties</h1>
-    <h3>Sorties que vous organisez</h3>
-    <table>
+{% block bodyuser %}
+
+    <div class="container" style="background-color: #f6f6f6;padding:15px;">
+    <h3 class="text-center">
+        Liste des Sorties
+    </h3>
+
+    <br>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" colspan="4" class="text-center">Sorties organisées</th>
+            </tr>
+            </thead>
+            <tbody>
     {% for e in organized%}
         <tr><td><a href="{{ path('EditEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
@@ -21,8 +32,15 @@
             </td></tr>
     {% endfor %}
     </table>
-    <h3>Sorties Rejoints</h3>
-    <table>
+    <br>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" colspan="4" class="text-center">Sorties Rejointes</th>
+            </tr>
+            </thead>
+            <tbody>
     {% for e in joined%}
         <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
@@ -38,8 +56,15 @@
             </td></tr>
     {% endfor %}
     </table>
-    <h3>Sorties à Rejoindre</h3>
-    <table>
+
+        <br>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" colspan="4" class="text-center">Sorties à Rejoindre</th>
+            </tr>
+            </thead>
+            <tbody>
     {% for e in notJoined%}
         <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
