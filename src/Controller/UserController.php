@@ -23,6 +23,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
 
+
+    /**
+     * Class UserController
+     * @Route("/index", name="index")
+     */
     public function index()
     {
         return $this->render('user/index.html.twig', [
