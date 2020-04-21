@@ -15,7 +15,7 @@
                >Mes sorties</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Mes inscriptions</a>
+            <a class="nav-link {% if app.request.attributes.get('_route') == 'user_list_events' %}active" style="background-color: #f6f6f6;{% endif %}" href="{{path('user_event_list')}}">Mes inscriptions</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if app.request.attributes.get('_route') == 'user_show' %}active" style="background-color: #f6f6f6;{% endif %}" href="{{path('user_show')}}">Mon compte</a>

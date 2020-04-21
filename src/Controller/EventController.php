@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends AbstractController
 {
     /**
-     * @Route("/User/CreateEvent", name="User_CreateEvent")
+     * @Route("/user/event/create", name="user_event_create")
      */
     public function createEvent(Request $request,EntityManagerInterface $em)
     {
@@ -50,12 +50,12 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/User/ListEvent", name="User_ListEvent")
+     * @Route("/user/event/list", name="user_event_list")
      */
     public function listEvents(Request $request,EntityManagerInterface $em)
     {
         if($this->getUser()==null){
-            return $this->redirectToRoute("ListEvent");
+            return $this->redirectToRoute("event_list");
         }
         $idUser=$this->getUser()->getId();
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
@@ -79,7 +79,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/ListEvent", name="ListEvent")
+     * @Route("/event/list", name="event_list")
      */
     public function noUserListEvents(Request $request,EntityManagerInterface $em)
     {
@@ -94,7 +94,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/ViewEvent/{id}", name="ViewEvent")
+     * @Route("/event/show/{id}", name="event_show")
      */
     public function viewEvent(Request $request,EntityManagerInterface $em,$id)
     {
@@ -136,7 +136,7 @@ class EventController extends AbstractController
                 $em->persist($user);
                 $em->flush();
             }
-            return $this->redirectToRoute("ListEvent");
+            return $this->redirectToRoute("event_list");
         }
         return $this->render("/event/viewEvent.html.twig",[
             "isOrganizer"=>$isOrganizer,
@@ -149,7 +149,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/EditEvent/{id}", name="EditEvent")
+     * @Route("/event/edit/{id}", name="event_edit")
      */
     public function editEvent(Request $request,EntityManagerInterface $em,$id)
     {
@@ -160,7 +160,7 @@ class EventController extends AbstractController
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
         $event=$eventRepo->findOneBy(['id'=>$id]);
         if($event->getOrganizer()->getId()!=$this->getUser()->getId()){
-            return $this->redirectToRoute("UserListEvent");
+            return $this->redirectToRoute("user_event_list");
         }
         $eventForm = $this->createForm(InsertEventType::class,$event);
         $eventForm->handleRequest($request);
@@ -171,7 +171,7 @@ class EventController extends AbstractController
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
-                return $this->redirectToRoute("UserListEvent");
+                return $this->redirectToRoute("user_event_list");
             }else{
                 $dateIsGood=false;
             }
