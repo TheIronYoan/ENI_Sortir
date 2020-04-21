@@ -45,20 +45,22 @@ class Location
      * @ORM\Column(type="float", nullable=true)
      */
     private $longitude;
+    
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\City", mappedBy="location")
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="location")
      */
     private $city;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="location")
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="location")
      */
     private $event;
 
     public function __construct()
     {
         $this->city = new ArrayCollection();
+        $this->event = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,45 +128,47 @@ class Location
         return $this;
     }
 
-    /**
-     * @return Collection|City[]
-     */
-    public function getCity(): Collection
+
+
+    public function getCity()
     {
         return $this->city;
     }
 
-    public function addCity(City $city): self
+    public function setCity(?City $city): self
     {
-        if (!$this->city->contains($city)) {
-            $this->city[] = $city;
-            $city->setLocation($this);
-        }
+        $this->city = $city;
 
         return $this;
     }
 
-    public function removeCity(City $city): self
-    {
-        if ($this->city->contains($city)) {
-            $this->city->removeElement($city);
-            // set the owning side to null (unless already changed)
-            if ($city->getLocation() === $this) {
-                $city->setLocation(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getEvent(): ?Event
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvent(): Collection
     {
         return $this->event;
     }
 
-    public function setEvent(?Event $event): self
+    public function addEvent(Event $event): self
     {
-        $this->event = $event;
+        if (!$this->event->contains($event)) {
+            $this->event[] = $event;
+            $event->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->event->contains($event)) {
+            $this->event->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getLocation() === $this) {
+                $event->setLocation(null);
+            }
+        }
 
         return $this;
     }

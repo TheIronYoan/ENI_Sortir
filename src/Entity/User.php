@@ -58,11 +58,6 @@ class User implements UserInterface
     private $administrator;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Campus", mappedBy="user")
-     */
-    private $campus;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="users")
      */
     private $events;
@@ -73,6 +68,11 @@ class User implements UserInterface
     private $organizedEvents;
 
     private $userRoles=array('ROLE_USER');
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="user")
+     */
+    private $campus;
 
     public function __construct()
     {
@@ -169,37 +169,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Campus[]
-     */
-    public function getCampus(): Collection
-    {
-        return $this->campus;
-    }
 
-    public function addCampus(Campus $campus): self
-    {
-        if (!$this->campus->contains($campus)) {
-            $this->campus[] = $campus;
-            $campus->setUser($this);
-        }
-
-
-        return $this;
-    }
-
-    public function removeCampus(Campus $campus): self
-    {
-        if ($this->campus->contains($campus)) {
-            $this->campus->removeElement($campus);
-            // set the owning side to null (unless already changed)
-            if ($campus->getUser() === $this) {
-                $campus->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
 
     public function getRoles()
@@ -282,5 +252,17 @@ class User implements UserInterface
 
         return $this;
 
+    }
+
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
     }
 }
