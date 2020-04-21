@@ -43,7 +43,7 @@ class MainController extends AbstractController
             $em->persist($user);
             $em->flush();
             $this->addFlash('success','Ajout réussi');
-            return $this->redirectToRoute("user_add");
+            return $this->redirectToRoute("login");
         }
 
         return $this->render('user/create.html.twig',[
