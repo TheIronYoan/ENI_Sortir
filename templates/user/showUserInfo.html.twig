@@ -1,9 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
-{% block title %}Mes informations{% endblock %}
+{% block title %}Bienvenue{% endblock %}
 
-{% block body %}
-    <div class="container">
+{% block bodyuser %}
+
+    <div class="container" style="background-color: #f6f6f6;padding:15px;">
+       <br>
+        <h3 class="text-center">
+            Vos données personnelles
+        </h3>
+        <br>
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-6">
@@ -16,5 +22,8 @@
                 {{ form_end(userForm) }}
             </div>
         </div>
+
+
     </div>
-{%  endblock %}
+
+{% endblock %}

@@ -3,12 +3,28 @@
 {% block title %}Espace utilisateur{% endblock %}
 
 {% block body %}
-<h1>   test</h1>
-
+    <br>
+    <br>
+    <div class="container">
+    <h1 class="text-center"> Espace Utilisateur</h1>
+        <br>
+        <br>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{path('user_index')}}#" style="background-color: #f6f6f6;">Mes sorties</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Mes inscriptions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{path('user_show')}}">Mon compte</a>
+        </li>
+    </ul>
     {% block bodyuser %}
 
-    {% endblock %}
 
+    {% endblock %}
+    </div>
 
 {% endblock %}
 
