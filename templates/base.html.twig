@@ -25,16 +25,14 @@
             </li>
             {% if app.user != null %}
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('CreateEvent') }}">Creer sortie</a>
+                <a class="nav-link" href="{{ path('User_CreateEvent') }}">Creer sortie</a>
             </li>
             {% endif %}
         </ul>
     </div>
     {% if app.user != null %}
         <a class="navbar-brand" href="{{ path('logout') }}">Logout</a>
-
         <a class="navbar-brand" href="{{ path('user_show') }}">{{   app.user.getUsername() }} </a>
-
     {% else %}
         <a class="navbar-brand" href="{{ path('login') }}">Login</a>
         <a class="navbar-brand" href="{{ path('user_add') }}">s'inscrire</a>
