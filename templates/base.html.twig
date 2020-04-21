@@ -32,11 +32,12 @@
     </div>
     {% if app.user != null %}
         <a class="navbar-brand" href="{{ path('logout') }}">Logout</a>
-        <a class="navbar-brand" href="user/show">{{   app.user.getUsername() }} </a>
+
+        <a class="navbar-brand" href="{{ path('user_show') }}">{{   app.user.getUsername() }} </a>
 
     {% else %}
         <a class="navbar-brand" href="{{ path('login') }}">Login</a>
-        <a class="navbar-brand" href="user/add">s'inscrire</a>
+        <a class="navbar-brand" href="{{ path('user_add') }}">s'inscrire</a>
     {% endif %}
 
 </nav>
