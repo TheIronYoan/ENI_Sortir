@@ -67,8 +67,6 @@ class User implements UserInterface
      */
     private $organizedEvents;
 
-    private $userRoles=array('ROLE_USER');
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="user")
      */
@@ -169,22 +167,15 @@ class User implements UserInterface
         return $this;
     }
 
-
-
-
     public function getRoles()
     {
-        return $this->userRoles;
+        if ($this->getAdministrator()) {
+            $roles = array("ROLE_USER", "ROLE_ADMIN");
+        }else{
+            $roles=array("ROLE_USER");
+        }
+        return $roles;
     }
-
-
-    public function setUserRoles(array $userRoles): self
-    {
-        $this->userRoles = $userRoles;
-        return $this;
-    }
-
-
 
     public function getSalt()
     {
