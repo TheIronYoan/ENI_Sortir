@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,9 +30,16 @@ class City
     private $postalCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="city")
+     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="city")
      */
     private $location;
+
+    public function __construct()
+    {
+        $this->location = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -61,15 +70,36 @@ class City
         return $this;
     }
 
-    public function getLocation(): ?Location
+    /**
+     * @return Collection|Location[]
+     */
+    public function getLocation(): Collection
     {
         return $this->location;
     }
 
-    public function setLocation(?Location $location): self
+    public function addLocation(Location $location): self
     {
-        $this->location = $location;
+        if (!$this->location->contains($location)) {
+            $this->location[] = $location;
+            $location->setCity($this);
+        }
 
         return $this;
     }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->location->contains($location)) {
+            $this->location->removeElement($location);
+            // set the owning side to null (unless already changed)
+            if ($location->getCity() === $this) {
+                $location->setCity(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

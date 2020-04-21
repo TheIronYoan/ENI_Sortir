@@ -24,19 +24,22 @@ class Campus
      */
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="campus")
-     */
-    private $user;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="campus")
      */
-    private $events;
+    private $event;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="campus")
+     */
+    private $user;
 
     public function __construct()
     {
-        $this->events = new ArrayCollection();
+        $this->event = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -56,30 +59,20 @@ class Campus
         return $this;
     }
 
-    public function getUser()
-    {
-        return $this->user;
-    }
 
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Event[]
      */
-    public function getEvents()
+    public function getEvent()
     {
-        return $this->events;
+        return $this->event;
     }
 
     public function addEvent(Event $event): self
     {
-        if (!$this->events->contains($event)) {
-            $this->events[] = $event;
+        if (!$this->event->contains($event)) {
+            $this->event[] = $event;
             $event->setCampus($this);
         }
 
@@ -88,11 +81,42 @@ class Campus
 
     public function removeEvent(Event $event): self
     {
-        if ($this->events->contains($event)) {
-            $this->events->removeElement($event);
+        if ($this->event->contains($event)) {
+            $this->event->removeElement($event);
             // set the owning side to null (unless already changed)
             if ($event->getCampus() === $this) {
                 $event->setCampus(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+            $user->setCampus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->user->contains($user)) {
+            $this->user->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getCampus() === $this) {
+                $user->setCampus(null);
             }
         }
 

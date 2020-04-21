@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <h1>Entrer une ville</h1>
+
+    </br>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-8">
+            {{ form_start(cityForm) }}
+            {{ form_errors(cityForm) }}
+            {{ form_widget (cityForm) }}
+            <input type="submit">
+            {{ form_end(cityForm) }}
+        </div>
+    </div>
+{% endblock %}

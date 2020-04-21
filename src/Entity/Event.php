@@ -51,10 +51,6 @@ class Event
     private $description;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="event")
-     */
-    private $location;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="events")
@@ -77,7 +73,7 @@ class Event
     private $organizer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="event")
      */
     private $campus;
 
@@ -85,6 +81,11 @@ class Event
      * @ORM\ManyToOne(targetEntity="App\Entity\EventState", inversedBy="events")
      */
     private $state;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="event")
+     */
+    private $location;
 
     public function __construct()
     {
@@ -172,37 +173,6 @@ class Event
 
 
     /**
-     * @return Collection|Location[]
-     */
-    public function getLocation(): Collection
-    {
-        return $this->location;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->location->contains($location)) {
-            $this->location[] = $location;
-            $location->setEvent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        if ($this->location->contains($location)) {
-            $this->location->removeElement($location);
-            // set the owning side to null (unless already changed)
-            if ($location->getEvent() === $this) {
-                $location->setEvent(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|User[]
      */
     public function getUsers(): Collection
@@ -262,6 +232,18 @@ class Event
     public function setState(?EventState $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }
