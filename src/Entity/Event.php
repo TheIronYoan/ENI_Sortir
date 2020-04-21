@@ -90,7 +90,6 @@ class Event
     public function __construct()
     {
         $this->state = new ArrayCollection();
-        $this->location = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
