@@ -84,7 +84,7 @@ class EventController extends AbstractController
     public function noUserListEvents(Request $request,EntityManagerInterface $em)
     {
         if($this->getUser()!=null){
-            return $this->redirectToRoute("UserListEvent");
+            return $this->redirectToRoute("user_event_list");
         }
         $dql="SELECT e FROM App\Entity\Event e ";
         $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
