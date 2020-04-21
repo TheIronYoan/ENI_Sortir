@@ -46,6 +46,7 @@ class UserController extends AbstractController
             $userForm = $this->createForm(RegisterType::class,$user);
             $userForm->handleRequest($request);
             if($userForm->isSubmitted() && $userForm->isValid()){
+                $user->setUserRoles(array('ROLE_ADMIN'));
                 $hashed=$encoder->encodePassword($user,$user->getPassword());
                 $user->setPassword($hashed);
             $em->persist($user);
