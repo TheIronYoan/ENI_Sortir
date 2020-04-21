@@ -74,7 +74,6 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->campus = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->organizedEvents = new ArrayCollection();
     }
