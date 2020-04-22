@@ -18,7 +18,7 @@
             </thead>
             <tbody>
     {% for e in organized%}
-        <tr><td><a href="{{ path('EditEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
+        <tr><td><a href="{{ path('event_show', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
                 {% if e.start.timestamp>date().timestamp %}
                     {{ e.getState().getLabel() }}
@@ -42,7 +42,7 @@
             </thead>
             <tbody>
     {% for e in joined%}
-        <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
+        <tr><td><a href="{{ path('event_show', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
                 {% if e.start.timestamp>date().timestamp %}
                     {{ e.getState().getLabel() }}
@@ -66,7 +66,7 @@
             </thead>
             <tbody>
     {% for e in notJoined%}
-        <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
+        <tr><td><a href="{{ path('event_show', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
                 {% if e.start.timestamp>date().timestamp %}
                     {{ e.getState().getLabel() }}

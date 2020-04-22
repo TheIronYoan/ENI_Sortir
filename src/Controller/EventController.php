@@ -37,7 +37,7 @@ class EventController extends AbstractController
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
-                return $this->redirectToRoute("UserListEvent");
+                return $this->redirectToRoute("user_event_list");
             }else{
                 $dateIsGood=false;
             }

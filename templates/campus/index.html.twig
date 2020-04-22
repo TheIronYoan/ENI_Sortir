@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CampusController!{% endblock %}
+
+{% block body %}
+<<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-6">
+            {{ form_start(campusForm) }}
+
+
+            {{ form_widget(campusForm) }}
+
+            <button type="submit"  class="btn btn-primary">Login</button>
+            {{ form_end(campusForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

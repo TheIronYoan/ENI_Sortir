@@ -14,11 +14,11 @@ class CampusFixtures extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
 
-        $quimperCampus=new Campus();
-        $quimperCampus->setName('Campus de Quimper');
-        $quimperCampus->setLocation($manager->find(Location::class,1));
+        $campus=new Campus();
+        $campus->setName('Campus de Quimper');
+        $campus->setLocation($manager->find(Location::class,1));
 
-        $manager->persist($quimperCampus);
+        $manager->persist($campus);
 
         $manager->flush();
 
