@@ -1,19 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
-{% block title %}Hello CampusController!{% endblock %}
+{% block title %}Bienvenue{% endblock %}
 
-{% block body %}
-<<div class="container">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-6">
-            {{ form_start(campusForm) }}
+{% block bodyuser %}
+
+<div class="container" style="background-color: #f6f6f6;padding:15px;">
+    <h3 class="text-center">
+        Creation Campus
+    </h3>
+    <br>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                {{ form_start(campusForm) }}
 
 
-            {{ form_widget(campusForm) }}
-
-            <button type="submit"  class="btn btn-primary">Login</button>
-            {{ form_end(campusForm) }}
+                {{ form_widget(campusForm) }}
+                <br>
+                <button type="submit"  class="btn btn-light btn-outline-primary">Login</button>
+                <br>
+                {{ form_end(campusForm) }}
+            </div>
         </div>
     </div>
 </div>
