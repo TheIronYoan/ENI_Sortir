@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\City;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CityFixtures extends Fixture
+class CityFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -21,7 +22,7 @@ class CityFixtures extends Fixture
             72000 =>'Le Mans',
             79000 =>'Niort',
             85000 =>'La Roche-sur-Yon',
-                ];
+        ];
 
         foreach ($cities as $k => $v) {
             $newcity=new City();
@@ -35,5 +36,10 @@ class CityFixtures extends Fixture
 
 
 
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 }

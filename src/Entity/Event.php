@@ -87,6 +87,11 @@ class Event
      */
     private $location;
 
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $illustration;
+
     public function __construct()
     {
         $this->state = new ArrayCollection();
@@ -243,6 +248,18 @@ class Event
     public function setLocation(?Location $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getIllustration(): ?string
+    {
+        return $this->illustration;
+    }
+
+    public function setIllustration(?string $illustration): self
+    {
+        $this->illustration = $illustration;
 
         return $this;
     }

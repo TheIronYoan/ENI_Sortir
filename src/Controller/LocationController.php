@@ -46,8 +46,8 @@ class LocationController extends AbstractController
         $query=$cityRepo->findAll();
         $cities=['EGGZEMPLE'=>new City()];
         foreach ($query as $thisCity){
-            array_push($cities,$thisCity->getName(),$thisCity);
-        }
+                array_push($cities,$thisCity->getName(),$thisCity);
+               }
 
         $location = new Location();
         $locationForm = $this->createForm(InsertLocationType::class,$location,['cities'=>$cities,]);

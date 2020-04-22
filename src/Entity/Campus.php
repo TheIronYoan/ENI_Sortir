@@ -34,7 +34,14 @@ class Campus
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="campus")
      */
+
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $location;
 
     public function __construct()
     {
@@ -119,6 +126,18 @@ class Campus
                 $user->setCampus(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

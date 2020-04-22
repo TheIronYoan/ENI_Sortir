@@ -2,23 +2,34 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\CityFixtures;
+use App\Entity\Campus;
+use App\Entity\City;
+use App\Entity\Location;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CampusFixtures extends Fixture
+class CampusFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
+
+/*
+ *
+         $quimperCampus=new Campus();
+        $quimperCampus->setLocation($manager->find(Location::class,0));
+        $quimperCampus->setName('Campus de Quimper');
+
+        $manager->persist($quimperCampus);
 
         $manager->flush();
+
+ *
+ */
     }
-    public function getDependencies()
+
+    public function getOrder()
     {
-        return array(
-            \App\DataFixtures\CityFixtures::class,
-        );
+        return 3;
     }
 }

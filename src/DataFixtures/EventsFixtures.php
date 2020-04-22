@@ -3,9 +3,10 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class EventsFixtures extends Fixture
+class EventsFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -13,5 +14,10 @@ class EventsFixtures extends Fixture
         // $manager->persist($product);
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 4;
     }
 }
