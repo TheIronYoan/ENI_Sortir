@@ -1,0 +1,32 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block bodyuser %}
+
+
+    <div class="container" style="background-color: #f6f6f6;padding:15px;">
+        <br>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+           <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col" colspan="3" class="text-center">Campus ENI</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for camp in campus  %}
+                        <tr>
+                            <td>{{ camp.id }}</td>
+                            <td>{{ camp.name }}</td>
+                            <td><a href="" class="btn btn-light btn-outline-primary">Editer</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
