@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
-class loginController extends AbstractController
+class LoginController extends AbstractController
 {
     /**
      * @return mixed

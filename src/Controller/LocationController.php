@@ -11,10 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SiteController extends AbstractController
+/**
+ * @Route("/user", name="user_")
+ */
+
+class LocationController extends AbstractController
 {
     /**
-     * @Route("/site/CreateCity", name="CreateCity")
+     * @Route("/location/city/create", name="location_city_create")
      */
     public function createCity(Request $request,EntityManagerInterface $em)
     {
@@ -34,7 +38,7 @@ class SiteController extends AbstractController
     }
 
     /**
-     * @Route("/site/CreateLocation", name="CreateLocation")
+     * @Route("/location/create", name="location_create")
      */
     public function createLocation(Request $request,EntityManagerInterface $em)
     {
@@ -42,8 +46,8 @@ class SiteController extends AbstractController
         $query=$cityRepo->findAll();
         $cities=['EGGZEMPLE'=>new City()];
         foreach ($query as $thisCity){
-            array_push($cities,$thisCity->getName(),$thisCity);
-        }
+                array_push($cities,$thisCity->getName(),$thisCity);
+               }
 
         $location = new Location();
         $locationForm = $this->createForm(InsertLocationType::class,$location,['cities'=>$cities,]);
