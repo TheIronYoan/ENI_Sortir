@@ -33,22 +33,44 @@ class CampusController extends AbstractController
         $this->em = $em;
     }
     /**
-     * @Route("/campus", name="campus")
+     * @Route("/campus/create", name="campus_create")
      */
-    public function index( Request $request
+    public function create( Request $request
                         )
                 {
         $campus = new Campus();
         $campusForm = $this->createForm(CampusType::class,$campus);
         $campusForm->handleRequest($request);
         if($campusForm->isSubmitted()){
-            $em->persist($campus);
-            $em->flush();
+            $this->em->persist($campus);
+            $this->em->flush();
             //return $this->redirectToRoute("index");
             return $this->redirectToRoute("home");
         }
 
+        return $this->render('campus/create.html.twig',[
+            "campusForm" =>$campusForm->createView()
+        ]);
+    } /**
+ * @Route("/campus/edit"/{id}, name="campus_edit")
+ */
+    public function edit( $id,Request $request
+    )
+    {
+        $campus = $this->em->find($id
+
+        $campusForm = $this->createForm(CampusType::class,$campus);
+        $campusForm->handleRequest($request);
+
+        if($campusForm->isSubmitted()){
+            $this->em->persist($campus);
+            $this->em->flush();
+            return $this->redirectToRoute("home");
+        }
+
         return $this->render('campus/index.html.twig',[
+
+            'campus' => $campus,
             "campusForm" =>$campusForm->createView()
         ]);
     }

@@ -22,12 +22,12 @@
                         <tr class="bg-white">
                             <td class="text-center">{{ camp.id }}</td>
                             <td class="text-center">{{ camp.name }}</td>
-                            <td class="text-center"><a href="" class="btn btn-light btn-outline-primary">Editer</a></td>
+                            <td class="text-center"><a href="{{ path('admin_campus_edit', { 'id': camp.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
                         </tr>
                     {% endfor %}
                 </table>
                 <br>
-                <a href="" class="btn btn-light btn-outline-primary">Ajouter</a>
+                <a href="{{ path('admin_campus_create') }}" class="btn btn-light btn-outline-primary">Ajouter</a>
             </div>
         </div>
     </div>
