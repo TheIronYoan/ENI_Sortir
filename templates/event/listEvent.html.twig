@@ -4,21 +4,21 @@
 
 {% block bodyuser %}
 
-    <div class="container" style="background-color: #f6f6f6;padding:15px;">
+    <div class="container"">
     <h3 class="text-center">
         Liste des Sorties
     </h3>
 
     <br>
         <table class="table">
-            <thead class="thead-dark">
+            <thead class="thead-light">
             <tr>
                 <th scope="col" colspan="4" class="text-center">Sorties organisées</th>
             </tr>
             </thead>
             <tbody>
     {% for e in organized%}
-        <tr><td><a href="{{ path('EditEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
+        <tr><td><a href="{{ path('event_show', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
                 {% if e.start.timestamp>date().timestamp %}
                     {{ e.getState().getLabel() }}
@@ -35,14 +35,14 @@
     <br>
 
         <table class="table">
-            <thead class="thead-dark">
+            <thead class="thead-light">
             <tr>
                 <th scope="col" colspan="4" class="text-center">Sorties Rejointes</th>
             </tr>
             </thead>
             <tbody>
     {% for e in joined%}
-        <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
+        <tr><td><a href="{{ path('event_show', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
                 {% if e.start.timestamp>date().timestamp %}
                     {{ e.getState().getLabel() }}
@@ -59,14 +59,14 @@
 
         <br>
         <table class="table">
-            <thead class="thead-dark">
+            <thead class="thead-light">
             <tr>
                 <th scope="col" colspan="4" class="text-center">Sorties à Rejoindre</th>
             </tr>
             </thead>
             <tbody>
     {% for e in notJoined%}
-        <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
+        <tr><td><a href="{{ path('event_show', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
             <td>
                 {% if e.start.timestamp>date().timestamp %}
                     {{ e.getState().getLabel() }}
