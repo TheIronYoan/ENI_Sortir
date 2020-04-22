@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ChangePasswordType;
+use App\Form\CheckPasswordType;
 use App\Form\RegisterType;
 
 use App\Form\RegisterTypetType;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Class UserController
@@ -62,4 +65,65 @@ class UserController extends AbstractController
             "userForm" =>$userForm->createView()
         ]);
     }
+    /**
+     * Class UserController
+     * @Route("/checkPassword", name="checkPassword")
+     */
+    public function checkPassword(
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+        SessionInterface $session
+    )
+    {
+        $user = new User();
+        $userForm = $this->createForm(CheckPasswordType::class,$user);
+        $userForm->handleRequest($request);
+        if($userForm->isSubmitted() && $userForm->isValid()){
+            $checkPass = $encoder->isPasswordValid($this->getUser(), $user->getPassword());
+            if ($checkPass===true) {
+                $session->set("allowChange","true");
+                return $this->redirectToRoute("user_changePassword");
+            }else{
+                $this->addFlash('danger','mot de passe incorrect');
+                return $this->redirectToRoute("user_checkPassword");
+            }
+        }
+
+        return $this->render('user/checkPassword.html.twig',[
+            "userForm" =>$userForm->createView()
+        ]);
+    }
+    /**
+     * Class UserController
+     * @Route("/changePassword", name="changePassword")
+     */
+    public function changePassword(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $encoder,
+        SessionInterface $session
+    )
+    {   if ($session->get('allowChange')=='true') {
+            $user = new User();
+            $actualUser = $this->getUser();
+            $userForm = $this->createForm(ChangePasswordType::class, $user);
+            $userForm->handleRequest($request);
+            if ($userForm->isSubmitted() && $userForm->isValid()) {
+                $hashed = $encoder->encodePassword($user, $user->getPassword());
+                $actualUser->setPassword($hashed);
+                $em->persist($actualUser);
+                $em->flush();
+                $session->set("allowChange","false");
+                $this->addFlash('success', 'modification réussi');
+                return $this->redirectToRoute("user_show");
+            }
+
+            return $this->render('user/changePassword.html.twig', [
+                "userForm" => $userForm->createView()
+            ]);
+        }else{
+            return $this->redirectToRoute("user_checkPassword");
+            }
+    }
+
 }
