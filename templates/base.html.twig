@@ -8,11 +8,12 @@
     <title>{% block title %}Eni Sortir{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/ironstyle.css') }}" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark"  style="background-color : #151f4c">
+<nav class="navbar navbar-expand-lg navbar-dark ironnavbar"  style="background: linear-gradient(#193a53, #192945)">
     <a class="navbar-brand" href="{{ path('home')}}">Sortir.fr</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,8 +39,6 @@
 
 <main role="main">
     <div class="container">
-
-
             {% for message in app.flashes('success') %}
                 <br><br>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -71,9 +70,7 @@
         {% endfor %}
 
     </div>
-
         {% block body %}{% endblock %}
-
 </main>
 
 <!-- Optional JavaScript -->

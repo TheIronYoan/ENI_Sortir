@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 /**
- * @Route("/admin", name="admin")
+ * @Route("/admin", name="admin_")
  */
 class CampusController extends AbstractController
 {
@@ -36,4 +36,12 @@ class CampusController extends AbstractController
             "campusForm" =>$campusForm->createView()
         ]);
     }
+    /**
+     * @Route("/campus/list", name="campus_list")
+     */
+    public function listCampus( ){
+        return $this->render('campus/index.html.twig');
+
+    }
+
 }

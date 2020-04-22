@@ -6,21 +6,52 @@
     <br>
     <br>
     <div class="container">
-    <h1 class="text-center"> Espace Utilisateur</h1>
+    <h1 class="text-center"> Espace Utilisateur {% if is_granted('ROLE_ADMIN') %} - Administrateur{% endif %}</h1>
         <br>
         <br>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') == 'user_index' %}active" style="background-color: #f6f6f6;{% endif %}" href="{{path('user_index')}}"
-               >Mes sorties</a>
+            <a class="nav-link
+                {% if app.request.attributes.get('_route') == 'user_index' %} active" style="background-color: #f6f6f6;{% endif %}
+                    "
+                href="{{path('user_index')}}" >
+                Mes sorties
+            </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') == 'user_event_list' %}active" style="background-color: #f6f6f6;{% endif %}" href="{{path('user_event_list')}}">Inscriptions</a>
+            <a class="nav-link
+                {% if app.request.attributes.get('_route') == 'user_event_list' %}active" style="background-color: #f6f6f6;{% endif %}
+                    "
+               href="{{path('user_event_list')}}">
+                Inscriptions
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if app.request.attributes.get('_route') == 'user_show' %}active" style="background-color: #f6f6f6;{% endif %}" href="{{path('user_show')}}">Mon compte</a>
         </li>
+        {% if is_granted('ROLE_ADMIN') %}
+             <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}" href="">Utilisateurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}" href="">Evenements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.attributes.get('_route') == 'admin_campus_list' %} bg-secondary text-light active" ;{% endif %}" href="{{path('admin_campus_list')}}">Campus</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}" href="">Sites</a>
+            </li>        <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}" href="">Villes</a>
+          </li>
+
+
+
+
+        {% endif  %}
     </ul>
+
     {% block bodyuser %}
 
 
