@@ -4,8 +4,11 @@ namespace App\Form;
 
 use App\Entity\Event;
 use App\Entity\EventState;
+use App\Entity\Location;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -23,9 +26,9 @@ class InsertEventType extends AbstractType
         $builder
             ->add('name', TextType::class,['label'=> 'Nom' ])
             ->add('start',DateTimeType::class,['label'=> 'Débute le' ])
-            ->add('duration', NumberType::class,['label'=> 'Durée' ])
+            ->add('duration', IntegerType::class,['label'=> 'Durée' ])
             ->add('signInLimit',DateTimeType::class,['label'=> 'Date limite d\'inscription' ])
-            ->add('maxUsers', NumberType::class,['label'=> 'Nombre maximum de participants' ])
+            ->add('maxUsers', IntegerType::class,['label'=> 'Nombre maximum de participants' ])
             ->add('description', TextType::class)
             ->add('state', ChoiceType::class,[
                 'choices' => ['Créée'=>new EventState(1,'Créée'),
@@ -33,6 +36,10 @@ class InsertEventType extends AbstractType
                     'Cloturée'=>new EventState(1,'Cloturée'),
                     'Annulée'=>new EventState(1,'Annulée'),
                 ],
+            ])
+            ->add('location', EntityType::class, [
+                'class' => Location::class,
+                'choice_label' => 'name',
             ])
         ;
     }

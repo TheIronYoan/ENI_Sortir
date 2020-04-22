@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\EventFilter;
 use App\Entity\User;
 use App\Entity\EventState;
+use App\Form\EventFilterType;
 use App\Form\EventRegisterType;
 use App\Form\InsertEventType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,24 +59,59 @@ class EventController extends AbstractController
         if($this->getUser()==null){
             return $this->redirectToRoute("event_list");
         }
-        $idUser=$this->getUser()->getId();
-        $eventRepo= $this->getDoctrine()->getRepository(Event::class);
-        $queryOrganized=$eventRepo->findBy(array('organizer'=>$idUser));
-        $dql="SELECT e FROM App\Entity\Event e ";
-        $dql.="WHERE e.id NOT IN (SELECT e2.id FROM App\Entity\Event e2 LEFT JOIN e2.users u WHERE (e2.organizer=:idUser OR u.id=:idUser)) AND DATE_ADD(e.start,1,'month') > CURRENT_DATE() AND e.state != 1";
-        $query = $em -> createQuery($dql);
-        $query->setParameter("idUser",$idUser);
-        $queryNotJoined = $query->getResult();
 
-        $dql="SELECT e FROM App\Entity\Event e";
-        $dql.=" INNER JOIN e.users u WHERE e.organizer != :idUser AND u.id = :idUser AND DATE_ADD(e.start,1,'month') > CURRENT_DATE()";
+        $dql="SELECT e as event,COUNT(u) as count FROM App\Entity\Event e ";
+        $dql.=" LEFT JOIN e.users u ";
+
+        $showJoined=true;
+        $showJoinable=true;
+        $eventFilter=new EventFilter();
+        $eventForm = $this->createForm(EventFilterType::class,$eventFilter);
+        $eventForm->handleRequest($request);
+        if($eventForm->isSubmitted()){
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
+            }
+            $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
+            if(strlen($eventForm['searchZone']->GetData())>0){
+                $dql.=" AND e.name LIKE '".$eventForm['searchZone']->GetData()."%'";
+            }
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
+            }
+            if($eventForm['dateBegin']->GetData()!=null){
+                $dql.=" AND e.start > '".$eventForm['dateBegin']->GetData()->format('Y-m-d H:i')."'";
+            }
+            if($eventForm['dateEnd']->GetData()!=null){
+                $dql.=" AND e.start < '".$eventForm['dateEnd']->GetData()->format('Y-m-d H:i')."'";
+            }
+
+            if($eventForm['pastEvent']->GetData()===false){
+                $dql.=" AND e.start> CURRENT_DATE() ";
+            }
+            if($eventForm['organizedEvent']->GetData()===false){
+                $dql.=" AND e.organizer != '".$this->getUser()->getId()."'";
+            }
+
+            if($eventForm['joinedEvent']->GetData()===false){
+                $showJoined=false;
+            }
+            if($eventForm['joinableEvent']->GetData()===false){
+                $showJoinable=false;
+            }
+        }
+        $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
-        $query->setParameter("idUser",$idUser);
-        $queryJoined = $query->getResult();
+        $events = $query->getResult();
+
+
+
         return $this->render("/event/listEvent.html.twig",[
-            "organized"=>$queryOrganized,
-            "joined"=>$queryJoined,
-            "notJoined"=>$queryNotJoined
+            "events"=>$events,
+            "userId"=>$this->getUser()->getId(),
+            "showJoined"=>$showJoined,
+            "showJoinable"=>$showJoinable,
+            "filterForm"=>$eventForm->createView(),
         ]);
     }
 
@@ -122,13 +159,43 @@ class EventController extends AbstractController
         if($this->getUser()!=null){
             return $this->redirectToRoute("user_event_list");
         }
-        $dql="SELECT e FROM App\Entity\Event e ";
-        $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
+        $dql="SELECT e as event,COUNT(u) as count FROM App\Entity\Event e ";
+        $dql.=" LEFT JOIN e.users u ";
+
+        $eventFilter=new EventFilter();
+        $eventForm = $this->createForm(EventFilterType::class,$eventFilter);
+        $eventForm->handleRequest($request);
+        if($eventForm->isSubmitted()){
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
+            }
+            $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
+            if(strlen($eventForm['searchZone']->GetData())>0){
+                $dql.=" AND e.name LIKE '".$eventForm['searchZone']->GetData()."%'";
+            }
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
+            }
+            if($eventForm['dateBegin']->GetData()!=null){
+                $dql.=" AND e.start > '".$eventForm['dateBegin']->GetData()->format('Y-m-d H:i')."'";
+            }
+            if($eventForm['dateEnd']->GetData()!=null){
+                $dql.=" AND e.start < '".$eventForm['dateEnd']->GetData()->format('Y-m-d H:i')."'";
+            }
+
+            if($eventForm['pastEvent']->GetData()===false){
+                $dql.=" AND e.start> CURRENT_DATE() ";
+            }
+        }
+        $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
-        $list = $query->getResult();
+        $events = $query->getResult();
+
+
 
         return $this->render("/event/noUserListEvent.html.twig",[
-            "List"=>$list
+            "events"=>$events,
+            "filterForm"=>$eventForm->createView(),
         ]);
     }
 
@@ -143,35 +210,42 @@ class EventController extends AbstractController
         $user = $this->getUser();
         $idUser=$user->getId();
         $eventRepo= $this->getDoctrine()->getRepository(Event::class);
-        $query=$eventRepo->findOneBy(['id'=>$id]);
+        $event=$eventRepo->findOneBy(['id'=>$id]);
         $eventForm = $this->createForm(EventRegisterType::class,$user);
         $eventForm->handleRequest($request);
 
         $isOrganizer=false;
-        if($query->getOrganizer()->getId()==$idUser){
+        if($event->getOrganizer()->getId()==$idUser){
             $isOrganizer=true;
         }
         $isJoined=false;
-        foreach($query->getUsers() as $eventUser){
+        foreach($event->getUsers() as $eventUser){
             if($eventUser->getId()==$idUser){
                 $isJoined=true;
             }
         }
         $isJoinable=true;
-        if($query->getSignInLimit()<new \DateTime('now')){
+        if($event->getSignInLimit()<new \DateTime('now')){
+            $isJoinable=false;
+        }
+        $dql="SELECT COUNT(u.name) FROM App\Entity\Event e  ";
+        $dql.="INNER JOIN e.users u";
+        $query = $em -> createQuery($dql);
+        $countUser = $query->getSingleScalarResult();
+        if($countUser>=$event->getMaxUsers()){
             $isJoinable=false;
         }
         if($eventForm->isSubmitted()){
-            if(!$isJoined && !$isOrganizer){
+            if(!$isJoined && !$isOrganizer&& $isJoinable){
                 //$userRepo= $this->getDoctrine()->getRepository(User::class);
                 //$user=$userRepo->findOneBy(['id'=>$idUser]);
-                $user->addEvent($query);
+                $user->addEvent($event);
                 $em->persist($user);
                 $em->flush();
             }elseif ($isJoined){
                 //$userRepo= $this->getDoctrine()->getRepository(User::class);
                 //$user=$userRepo->findOneBy(['id'=>$idUser]);
-                $user->removeEvent($query);
+                $user->removeEvent($event);
                 $em->persist($user);
                 $em->flush();
             }
@@ -182,7 +256,7 @@ class EventController extends AbstractController
             "isJoined"=>$isJoined,
             "isJoinable"=>$isJoinable,
             "eventForm"=>$eventForm->CreateView(),
-            "Event"=>$query
+            "Event"=>$event
         ]);
 
     }

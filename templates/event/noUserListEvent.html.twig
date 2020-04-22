@@ -3,22 +3,67 @@
 {% block title %}Bienvenue{% endblock %}
 
 {% block body %}
+
+    {{ form_start(filterForm) }}
+    {{ form_errors(filterForm) }}
+    <div class="form-row">
+        <div class="col">
+            {{ form_row (filterForm.searchZone) }}
+            {{ form_row (filterForm.city) }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form_row (filterForm.dateBegin) }}
+                </div><div class="col">
+                    {{ form_row (filterForm.dateEnd) }}
+                </div></div>
+        </div>
+        <div class="col">
+            {{ form_row (filterForm.pastEvent) }}
+        </div>
+        <div class="col">
+            <input type="submit">
+        </div>
+        {% do filterForm.organizedEvent.setRendered() %}
+        {% do filterForm.joinedEvent.setRendered() %}
+        {% do filterForm.joinableEvent.setRendered() %}
+        {{ form_end(filterForm) }}
+    </div>
     <h1>Liste des Sorties</h1>
-    <h3>Sorties disponibles</h3>
-    <table>
-        {% for e in List%}
-            <tr><td><a href="{{ path('ViewEvent', { 'id': e.getId() }) }}">{{ e.getName() }}</a></td>
-                <td>
-                    {% if e.start.timestamp>date().timestamp %}
-                        {{ e.getState().getLabel() }}
-                    {% endif %}
-                    {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp>date().timestamp %}
-                        En Cours
-                    {% endif %}
-                    {% if e.start.timestamp<date().timestamp and e.start|date_modify("+"~e.duration~" minute").timestamp<date().timestamp %}
-                        Terminée
-                    {% endif %}
-                </td></tr>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>clôture</th>
+            <th>Inscrits/place</th>
+            <th>Etat</th>
+            <th>Organisateur</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in events%}
+
+                <tr>
+                    <td>{{ e['event'].name }}</td>
+                    <td>{{ e['event'].start|date('Y-m-d H:i') }}</td>
+                    <td>{{ e['event'].SignInLimit|date('Y-m-d H:i') }}</td>
+                    <td>{{ e['count'] }}/{{ e['event'].MaxUsers }}</td>
+                    <td>
+                        {% if e['event'].start.timestamp>date().timestamp %}
+                            {{ e['event'].getState().getLabel() }}
+                        {% endif %}
+                        {% if e['event'].start.timestamp<date().timestamp and e['event'].start|date_modify("+"~e['event'].duration~" minute").timestamp>date().timestamp %}
+                            En Cours
+                        {% endif %}
+                        {% if e['event'].start.timestamp<date().timestamp and e['event'].start|date_modify("+"~e['event'].duration~" minute").timestamp<date().timestamp %}
+                            Terminée
+                        {% endif %}
+                    </td>
+
+                    <td>{{ e['event'].organizer.name }}  {{ e['event'].organizer.firstname }}</td>
+
+                </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
