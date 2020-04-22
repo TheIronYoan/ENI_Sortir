@@ -51,13 +51,14 @@ class CampusController extends AbstractController
         return $this->render('campus/create.html.twig',[
             "campusForm" =>$campusForm->createView()
         ]);
-    } /**
- * @Route("/campus/edit"/{id}, name="campus_edit")
+    }
+/**
+ * @Route("/campus/edit", name="campus_edit")
  */
     public function edit( $id,Request $request
     )
     {
-        $campus = $this->em->find($id
+        $campus = $this->em->find($id);
 
         $campusForm = $this->createForm(CampusType::class,$campus);
         $campusForm->handleRequest($request);
