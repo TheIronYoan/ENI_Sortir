@@ -5,11 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="cities")
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
+
  */
+
 class City
 {
     /**
@@ -20,12 +23,15 @@ class City
     private $id;
 
     /**
+     *
      * @ORM\Column(type="string", length=75)
+
      */
     private $name;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=0)
+
      */
     private $postalCode;
 

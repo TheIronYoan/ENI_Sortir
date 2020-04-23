@@ -6,6 +6,7 @@
     <br>
     <br>
     <div class="container">
+    {% if app.user != null %}
     <h1 class="text-center"> Espace Utilisateur {% if is_granted('ROLE_ADMIN') %} - Administrateur{% endif %}</h1>
         <br>
         <br>
@@ -65,7 +66,7 @@
 
         {% endif  %}
     </ul>
-
+    {% endif  %}
     {% block bodyuser %}
 
 

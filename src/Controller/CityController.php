@@ -61,19 +61,22 @@ class CityController extends AbstractController
         else{
             $city = $this->repository->find($id);
         }
-        $city = $this->repository->find($id);
+
         $cityForm = $this->createForm(CityType::class,$city);
         $cityForm->handleRequest($request);
 
-        if($cityForm->isSubmitted()){
+        if($cityForm->isSubmitted() && $cityForm->isValid()){
+
+
             $this->em->persist($city);
             $this->em->flush();
+
             return $this->redirectToRoute("home");
         }
 
         return $this->render('city/edit.html.twig',[
 
-            'campus' => $city,
+            'city' => $city,
             "cityForm" =>$cityForm->createView()
         ]);
     }
