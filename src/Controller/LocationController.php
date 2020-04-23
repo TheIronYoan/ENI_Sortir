@@ -42,15 +42,9 @@ class LocationController extends AbstractController
      */
     public function createLocation(Request $request,EntityManagerInterface $em)
     {
-        $cityRepo= $this->getDoctrine()->getRepository(City::class);
-        $query=$cityRepo->findAll();
-        $cities=['EGGZEMPLE'=>new City()];
-        foreach ($query as $thisCity){
-                array_push($cities,$thisCity->getName(),$thisCity);
-               }
 
         $location = new Location();
-        $locationForm = $this->createForm(InsertLocationType::class,$location,['cities'=>$cities,]);
+        $locationForm = $this->createForm(InsertLocationType::class,$location);
         $locationForm->handleRequest($request);
         if($locationForm->isSubmitted()){
             $em->persist($location);

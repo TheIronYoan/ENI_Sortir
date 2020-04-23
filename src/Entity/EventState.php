@@ -30,9 +30,9 @@ class EventState
      */
     private $events;
 
-    public function __construct($id)
+    public function __construct()
     {
-        $this->id = $id;
+
         $this->events = new ArrayCollection();
     }
 
