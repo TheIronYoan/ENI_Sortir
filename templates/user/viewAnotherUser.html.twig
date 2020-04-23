@@ -9,15 +9,19 @@
         <br><br>
     </div>
     <div>
-        <h3 class="text-center">{{ user.firstname }}</h3>
+        <h3>Nom: {{ user.firstname }}</h3>
         <br>
-        <h3 class="text-center">{{ user.name }}</h3>
+        <h3>Prénom: {{ user.name }}</h3>
         <br>
-        <h3 class="text-center">{{ user.phone }}</h3>
+        <h3>Téléphone: {{ user.phone }}</h3>
         <br>
-        <h3 class="text-center">{{ user.email }}</h3>
+        <h3>Email: {{ user.email }}</h3>
         <br>
-        <h3 class="text-center">{{ user.campus }}</h3>
+        <h3>Site de rattachement: {{ user.campus }}</h3>
+        <br>
+        <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="javascript:history.back()">Retour</a>
+        </div>
     </div>
 
 

@@ -38,12 +38,14 @@ class LocationController extends AbstractController
     public function createLocation($id,Request $request)
     {
 
+
         if($id==0) {
             $location = new Location();
         }
         else{
             $location= $this->repository->find($id);
         }
+
         $locationForm = $this->createForm(InsertLocationType::class,$location);
         $locationForm->handleRequest($request);
         if($locationForm->isSubmitted()){

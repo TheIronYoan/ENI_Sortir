@@ -17,7 +17,6 @@ class InsertLocationType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->cities = $options['cities'];
 
         $builder
             ->add('name')
@@ -36,9 +35,7 @@ class InsertLocationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Location::class,
-            'cities' => false,
         ]);
 
-        $resolver->setAllowedTypes('cities', 'array');
     }
 }
