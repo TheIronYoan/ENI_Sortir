@@ -28,6 +28,7 @@
                     </div>
                 {{ form_end(filterForm) }}
             </div>
+    <div class="contanier">
     <h1>Liste des Sorties</h1>
     <table border="1">
         <thead>
@@ -102,4 +103,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <a class="nav-link" href="{{ path('user_event_create') }}">Créer une sortie</a>
+    </div>
 {% endblock %}
