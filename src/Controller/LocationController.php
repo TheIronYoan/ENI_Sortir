@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Location;
 use App\Form\InsertLocationType;
-use App\Repository\CityRepository;
+use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class LocationController extends AbstractController
      */
 
     private $em;
-    public function __construct(CityRepository $repository,EntityManagerInterface $em)
+    public function __construct(LocationRepository $repository,EntityManagerInterface $em)
     {
         $this->repository = $repository;
         $this->em = $em;
@@ -37,7 +37,7 @@ class LocationController extends AbstractController
      */
     public function createLocation($id,Request $request)
     {
-
+        dump($id);
 
         if($id==0) {
             $location = new Location();
@@ -47,6 +47,7 @@ class LocationController extends AbstractController
         }
 
         $locationForm = $this->createForm(InsertLocationType::class,$location);
+
         $locationForm->handleRequest($request);
         if($locationForm->isSubmitted()){
             $this->em->persist($location);

@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class InsertLocationType extends AbstractType
 {
 
-    private $cities;
+
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
