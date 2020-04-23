@@ -37,7 +37,7 @@ class LocationController extends AbstractController
      */
     public function createLocation($id,Request $request)
     {
-        dump($id);
+
 
         if($id==0) {
             $location = new Location();

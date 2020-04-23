@@ -9,6 +9,7 @@ use App\Form\RegisterType;
 
 use App\Form\RegisterTypetType;
 use App\Form\UserInfoType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,18 +20,34 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-/**
- * Class UserController
- * @Route("/user" , name="user_")
- */
+
 class UserController extends AbstractController
 {
+
+    /**
+     * @var UserRepository
+     */
+
+    private $repository;
+
+    /**
+     * @var ObjectManager
+     */
+
+    private $em;
+    public function __construct(UserRepository $repository,EntityManagerInterface $em)
+    {
+        $this->repository = $repository;
+        $this->em = $em;
+    }
+
 
 
     /**
      * Class UserController
-     * @Route("/index", name="index")
+     * @Route("/user/index", name="user_index")
      */
+
     public function index()
     {
         return $this->render('user/index.html.twig', [
@@ -38,10 +55,9 @@ class UserController extends AbstractController
         ]);
     }
 
-
     /**
      * Class UserController
-     * @Route("/show", name="show")
+     * @Route("/user/usershow", name="user_show")
      */
     public function showInfo(
                         Request $request,
@@ -67,7 +83,7 @@ class UserController extends AbstractController
     }
     /**
      * Class UserController
-     * @Route("/checkPassword", name="checkPassword")
+     * @Route("/checkPassword", name="user_checkPassword")
      */
     public function checkPassword(
         Request $request,
@@ -95,7 +111,7 @@ class UserController extends AbstractController
     }
     /**
      * Class UserController
-     * @Route("/changePassword", name="changePassword")
+     * @Route("/changePassword", name="user_changePassword")
      */
     public function changePassword(
         Request $request,
@@ -127,7 +143,7 @@ class UserController extends AbstractController
     }
     /**
      * Class UserController
-     * @Route("/viewAnotherInfo", name="viewAnotherInfo")
+     * @Route("/viewAnotherInfo", name="user_viewAnotherInfo")
      */
     public function viewAnotherInfo(
         Request $request,
@@ -147,4 +163,55 @@ class UserController extends AbstractController
             'userToShow'=> $userToShow
         ]);
     }
+
+
+    /**
+     * Class UserController
+     * @Route("/admin/user/edit/{id<\d+>?0}", name="admin_user_edit")
+     */
+    public function edit(
+        $id,
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $encoder
+    )
+    {
+        if($id==0) {
+        $user = new User();
+    }
+    else{
+        $user= $this->repository->find($id);
+    }
+        $userForm = $this->createForm(UserInfoType::class,$user);
+        $userForm->handleRequest($request);
+        if($userForm->isSubmitted() && $userForm->isValid()){
+            $hashed=$encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($hashed);
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success','Ajout réussi');
+            return $this->redirectToRoute("admin_user_list");
+        }
+
+        return $this->render('user/showUserInfo.html.twig',[
+            "userForm" =>$userForm->createView()
+        ]);
+
+
+    }
+    /**
+     * Class UserController
+     * @Route("/admin/user/list/", name="admin_user_list")
+     */
+    public function list( Request $request){
+
+        $users = $this->repository->findAll();
+        return $this->render('user/list.html.twig', [
+            'users' => $users,
+        ]);
+
+
+    }
+
+
 }
