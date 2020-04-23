@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/admin/city", name="admin_city_")
+ * @Route("/user/city", name="user_city_")
  */
 
 class CityController extends AbstractController

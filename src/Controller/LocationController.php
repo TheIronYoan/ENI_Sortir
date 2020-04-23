@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\City;
 use App\Entity\Location;
-use App\Form\InsertCityType;
 use App\Form\InsertLocationType;
+use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,48 +17,56 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocationController extends AbstractController
 {
     /**
-     * @Route("/location/city/create", name="location_city_create")
+     * @var CityRepository
      */
-    public function createCity(Request $request,EntityManagerInterface $em)
+
+    private $repository;
+
+    /**
+     * @var ObjectManager
+     */
+
+    private $em;
+    public function __construct(CityRepository $repository,EntityManagerInterface $em)
     {
-        $city = new City();
-        $cityForm = $this->createForm(InsertCityType::class,$city);
-        $cityForm->handleRequest($request);
-        if($cityForm->isSubmitted()){
-            $em->persist($city);
-            $em->flush();
-               //return $this->redirectToRoute("index");
+        $this->repository = $repository;
+        $this->em = $em;
+    }
+    /**
+     * @Route("/location/edit/{id<\d+>?0}", name="location_edit")
+     */
+    public function createLocation($id,Request $request)
+    {
+
+        if($id==0) {
+            $location = new Location();
+        }
+        else{
+            $location= $this->repository->find($id);
+        }
+        $locationForm = $this->createForm(InsertLocationType::class,$location);
+        $locationForm->handleRequest($request);
+        if($locationForm->isSubmitted()){
+            $this->em->persist($location);
+            $this->em->flush();
+            //return $this->redirectToRoute("index");
             return $this->redirectToRoute("home");
         }
-
-        return $this->render('site/CreateCity.html.twig',[
-            "cityForm" =>$cityForm->createView()
+        return $this->render('location/edit.html.twig',[
+            "locationForm" =>$locationForm->createView()
         ]);
     }
 
     /**
-     * @Route("/location/create", name="location_create")
+     * @Route("/location/list", name="location_list")
      */
-    public function createLocation(Request $request,EntityManagerInterface $em)
-    {
-        $cityRepo= $this->getDoctrine()->getRepository(City::class);
-        $query=$cityRepo->findAll();
-        $cities=['EGGZEMPLE'=>new City()];
-        foreach ($query as $thisCity){
-                array_push($cities,$thisCity->getName(),$thisCity);
-               }
+    public function listCampus( Request $request){
 
-        $location = new Location();
-        $locationForm = $this->createForm(InsertLocationType::class,$location,['cities'=>$cities,]);
-        $locationForm->handleRequest($request);
-        if($locationForm->isSubmitted()){
-            $em->persist($location);
-            $em->flush();
-            //return $this->redirectToRoute("index");
-            return $this->redirectToRoute("home");
-        }
-        return $this->render('site/CreateLocation.html.twig',[
-            "locationForm" =>$locationForm->createView()
+        $locations = $this->repository->findAll();
+        return $this->render('location/list.html.twig', [
+            'locations' => $locations,
         ]);
+
+
     }
 }

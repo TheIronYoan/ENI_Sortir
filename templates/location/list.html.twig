@@ -13,21 +13,21 @@
            <table class="table">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col" colspan="3" class="text-center">Villes</th>
+                        <th scope="col" colspan="3" class="text-center">Campus ENI</th>
                     </tr>
                     </thead>
                     <tbody>
 
-                    {% for camp in campus  %}
+                    {% for location in locations  %}
                         <tr class="bg-white">
-                            <td class="text-center">{{ camp.id }}</td>
-                            <td class="text-center">{{ camp.name }}</td>
-                            <td class="text-center"><a href="{{ path('user_city_edit', { 'id': camp.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
+                            <td class="text-center">{{ location.id }}</td>
+                            <td class="text-center">{{ location.name }}</td>
+                            <td class="text-center"><a href="{{ path('user_location_edit', { 'id': location.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
                         </tr>
                     {% endfor %}
                 </table>
                 <br>
-                <a href="{{ path('user_city_edit') }}" class="btn btn-light btn-outline-primary">Ajouter</a>
+                <a href="{{ path('user_location_edit') }}" class="btn btn-light btn-outline-primary">Ajouter</a>
             </div>
         </div>
     </div>

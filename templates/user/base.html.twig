@@ -34,6 +34,17 @@
                 Mon compte
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}"
+               href="{{path('user_location_list')}}">
+                Sites
+            </a>
+        </li>        <li class="nav-item">
+            <a class="nav-link {% if app.request.attributes.get('_route') == '/admin/city/*' %}active" style="background-color: #f6f6f6;{% endif %}"
+               href="{{path('user_city_list')}}">
+                Villes
+            </a>
+        </li>
         {% if is_granted('ROLE_ADMIN') %}
              <li class="nav-item">
                 <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}"
@@ -54,17 +65,8 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}"
-                   href="">
-                    Sites
-                </a>
-            </li>        <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') == '/admin/city/*' %}active" style="background-color: #f6f6f6;{% endif %}"
-               href="{{path('admin_city_list')}}">
-                Villes
-            </a>
-          </li>
+
+
 
         {% endif  %}
     </ul>
