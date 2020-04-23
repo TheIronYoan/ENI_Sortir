@@ -24,7 +24,7 @@
                         {{ form_row (filterForm.pastEvent) }}
                     </div>
                     <div class="col">
-                        <input type="submit">
+                        <input class="btn btn-primary" type="submit">
                     </div>
                 {{ form_end(filterForm) }}
             </div>
@@ -103,6 +103,6 @@
         {% endfor %}
         </tbody>
     </table>
-    <a class="nav-link" href="{{ path('user_event_create') }}">Créer une sortie</a>
+    <a class="btn btn-primary" href="{{ path('user_event_create') }}">Créer une sortie</a>
     </div>
 {% endblock %}

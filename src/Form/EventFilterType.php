@@ -28,9 +28,9 @@ class EventFilterType extends AbstractType
             ])
             ->add('dateBegin', DateTimeType::class,['label'=> 'Débute entre le :' ,'required'   => false])
             ->add('dateEnd',DateTimeType::class,['label'=> 'et le :' ,'required'   => false])
-            ->add('organizedEvent',CheckboxType::class, ['label' => 'Sorties que j\'organise', 'required'   => false, ] )
-            ->add('joinedEvent',CheckboxType::class, ['label' => 'Sorties auxquels je participe', 'required'   => false, ] )
-            ->add('joinableEvent',CheckboxType::class, ['label' => 'Sorties auxquels je ne participe pas', 'required'   => false,'value'=>true ] )
+            ->add('organizedEvent',CheckboxType::class, ['label' => 'Sorties que j\'organise', 'required'   => false,'data'=>true ] )
+            ->add('joinedEvent',CheckboxType::class, ['label' => 'Sorties auxquels je participe', 'required'   => false,'data'=>true ] )
+            ->add('joinableEvent',CheckboxType::class, ['label' => 'Sorties auxquels je ne participe pas', 'required'   => false,'data'=>true ] )
             ->add('pastEvent',CheckboxType::class, ['label' => 'Sorties terminés', 'required'   => false, ] )
         ;
     }

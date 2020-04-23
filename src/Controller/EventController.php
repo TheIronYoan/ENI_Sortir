@@ -69,26 +69,7 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(EventFilterType::class,$eventFilter);
         $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()){
-            if($eventForm['city']->GetData()->getId()!=0){
-                $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
-            }
-            $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
-            if(strlen($eventForm['searchZone']->GetData())>0){
-                $dql.=" AND e.name LIKE '".$eventForm['searchZone']->GetData()."%'";
-            }
-            if($eventForm['city']->GetData()->getId()!=0){
-                $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
-            }
-            if($eventForm['dateBegin']->GetData()!=null){
-                $dql.=" AND e.start > '".$eventForm['dateBegin']->GetData()->format('Y-m-d H:i')."'";
-            }
-            if($eventForm['dateEnd']->GetData()!=null){
-                $dql.=" AND e.start < '".$eventForm['dateEnd']->GetData()->format('Y-m-d H:i')."'";
-            }
-
-            if($eventForm['pastEvent']->GetData()===false){
-                $dql.=" AND e.start> CURRENT_DATE() ";
-            }
+            $dql.= $this->commonFilter($eventForm);
             if($eventForm['organizedEvent']->GetData()===false){
                 $dql.=" AND e.organizer != '".$this->getUser()->getId()."'";
             }
@@ -166,26 +147,7 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(EventFilterType::class,$eventFilter);
         $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()){
-            if($eventForm['city']->GetData()->getId()!=0){
-                $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
-            }
-            $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
-            if(strlen($eventForm['searchZone']->GetData())>0){
-                $dql.=" AND e.name LIKE '".$eventForm['searchZone']->GetData()."%'";
-            }
-            if($eventForm['city']->GetData()->getId()!=0){
-                $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
-            }
-            if($eventForm['dateBegin']->GetData()!=null){
-                $dql.=" AND e.start > '".$eventForm['dateBegin']->GetData()->format('Y-m-d H:i')."'";
-            }
-            if($eventForm['dateEnd']->GetData()!=null){
-                $dql.=" AND e.start < '".$eventForm['dateEnd']->GetData()->format('Y-m-d H:i')."'";
-            }
-
-            if($eventForm['pastEvent']->GetData()===false){
-                $dql.=" AND e.start> CURRENT_DATE() ";
-            }
+            $dql.=$this->commonFilter($eventForm);
         }
         $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
@@ -261,4 +223,28 @@ class EventController extends AbstractController
 
     }
 
+    public function commonFilter($eventForm){
+        $dql="";
+        if($eventForm['city']->GetData()->getId()!=0){
+            $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
+        }
+        $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
+        if(strlen($eventForm['searchZone']->GetData())>0){
+            $dql.=" AND e.name LIKE '".$eventForm['searchZone']->GetData()."%'";
+        }
+        if($eventForm['city']->GetData()->getId()!=0){
+            $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
+        }
+        if($eventForm['dateBegin']->GetData()!=null){
+            $dql.=" AND e.start > '".$eventForm['dateBegin']->GetData()->format('Y-m-d H:i')."'";
+        }
+        if($eventForm['dateEnd']->GetData()!=null){
+            $dql.=" AND e.start < '".$eventForm['dateEnd']->GetData()->format('Y-m-d H:i')."'";
+        }
+
+        if($eventForm['pastEvent']->GetData()===false){
+            $dql.=" AND e.start> CURRENT_DATE() ";
+        }
+        return $dql;
+    }
 }
