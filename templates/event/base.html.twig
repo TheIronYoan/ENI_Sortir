@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace utilisateur{% endblock %}
+
+{% block body %}
+    <br>
+
+    <div class="container">
+    <h2 class="text-center ironh2"> Trouver une sortie {% if is_granted('ROLE_ADMIN') %} - Administrateur{% endif %}</h2>
+        <br>
+
+
+
+    {% block bodyevent %}
+
+
+    {% endblock %}
+    </div>
+
+{% endblock %}
+
+

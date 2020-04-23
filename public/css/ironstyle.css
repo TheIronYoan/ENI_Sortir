@@ -1,5 +1,45 @@
+body{
+    background-color: #eeeeee;
+}
+.maincontainer
+{
+    margin-top:0px;
+    background-color: #ffffff;
+}
 #ironNavBar {
 
+    height: 80px;
     background: linear-gradient(#193a53, #192945);
+}
 
+
+.jumbo-home{
+    height: 350px;
+    background-image: url("../img/pages/home.jpg");
+    margin-bottom: 0px;
+}
+
+.ironh1-home{
+    display: block;
+    margin: 150px auto auto auto;
+    padding-top:10px;
+    text-align: center;
+    background: rgba(170, 170, 170, 0.6);
+
+    font-family: Serif;
+    opacity:1.0;
+    font-weight:600;
+    font-style: italic;
+    Font-size:4.5em;
+    color: #002752;
+}
+.ironh2-home{
+    display: block;
+    background: rgba(200, 200, 200, 0.6);
+    padding:10px;
+    opacity:1.0;
+    font-weight:600;
+    Font-size:2.5em;
+    color: #002752;
+    margin:auto;
 }

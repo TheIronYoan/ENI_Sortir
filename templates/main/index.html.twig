@@ -4,8 +4,41 @@
 
 {% block bodymain %}
 
-    <div class="container">
-        <h2>TODO : Faire une page index :D</h2>
+
+    <div class="container maincontainer">
+        <br>
+        <br>
+        <h2 class="text-lg-center ironh2-home w-75">Trouver une sortie</h2>
+
+            <br>
+            <br>
+        <div class="card-deck mb-6 text-center">
+            <div class="card mb-6 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Par campus</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title"><small class="text-muted">Trouver une sortie </br>organisée proche </br>votre residence</small></h2>
+                </br>
+                    <a href="{{ path('event_list') }}" class="btn btn-lg btn-block btn-outline-primary">Voir les sorties</a>
+                </div>
+            </div>
+
+            <div class="card mb-6 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Par Ville</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title"><small class="text-muted">Voir les sorties organisées<br> par les élèves de  </br>votre Campus</small></h2>
+                    </br>
+                    <a href="{{ path('event_list') }}" class="btn btn-lg btn-block btn-outline-success">Voir les sorties</a>
+                </div>
+            </div>
+
+        </div>
+        </br>  </br>  </br>
+    </div>
+
     </div>
 
 {% endblock %}

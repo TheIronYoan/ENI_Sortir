@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Eni Sortir{% endblock %}</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
 
 
-    <link rel="stylesheet" href="{{ asset('css/ironstyle.css') }}" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/ironstyle.css') }}" >
 
 
 </head>
@@ -21,11 +21,15 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" >
 
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('event_list') }}">Sorties</a>
+                <a class="nav-link" href="{{ path('event_list') }}">Villes</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('event_list') }}">Campus</a>
+            </li>
+
 
         </ul>
     </div>

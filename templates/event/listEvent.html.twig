@@ -1,36 +1,47 @@
-{% extends 'base.html.twig' %}
+{% extends 'event/base.html.twig' %}
 
 {% block title %}Bienvenue{% endblock %}
 
-{% block body %}
-
+{% block bodyevent %}
             {{ form_start(filterForm) }}
             {{ form_errors(filterForm) }}
-            <div class="form-row">
-                    <div class="col">
-                        {{ form_row (filterForm.searchZone) }}
-                        {{ form_row (filterForm.city) }}
-                        <div class="form-row">
-                            <div class="col">
-                        {{ form_row (filterForm.dateBegin) }}
-                            </div><div class="col">
-                        {{ form_row (filterForm.dateEnd) }}
-                            </div></div>
-                    </div>
-                    <div class="col">
-                        {{ form_row (filterForm.organizedEvent) }}
-                        {{ form_row (filterForm.joinedEvent) }}
-                        {{ form_row (filterForm.joinableEvent) }}
-                        {{ form_row (filterForm.pastEvent) }}
-                    </div>
-                    <div class="col">
-                        <input class="btn btn-primary" type="submit">
-                    </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    {{ form_row (filterForm.searchZone) }}
+                    {{ form_row (filterForm.city) }}
+                </div>
+                <div class="col-lg-4">
+
+                    {{ form_row (filterForm.dateBegin) }}
+
+                    {{ form_row (filterForm.dateEnd) }}
+                </div>
+
+                <div class="col-lg-4">
+                    <br>
+                    {{ form_row (filterForm.organizedEvent) }}
+                    {{ form_row (filterForm.joinedEvent) }}
+                    {{ form_row (filterForm.joinableEvent) }}
+                    {{ form_row (filterForm.pastEvent) }}
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                        <input class="btn btn-secondary" type="submit">
+                </div>
                 {{ form_end(filterForm) }}
             </div>
-    <div class="contanier">
-    <h1>Liste des Sorties</h1>
-    <table border="1">
+
+             <br>
+
+
+
+        <h2 class="text-center">Liste des Sorties</h2>
+        <br>
+
+    <table class="table">
         <thead>
         <tr>
             <th>Nom de la sortie</th>
@@ -105,4 +116,5 @@
     </table>
     <a class="btn btn-primary" href="{{ path('user_event_create') }}">Créer une sortie</a>
     </div>
+
 {% endblock %}

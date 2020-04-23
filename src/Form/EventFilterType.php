@@ -19,7 +19,7 @@ class EventFilterType extends AbstractType
         $builder
             ->add('searchZone',SearchType::class,[
                 'required'=>false,
-                'label'=>'Rechercher Sortie',
+                'label'=>'Description',
         ])
             ->add('city', EntityType::class, [
                 'class' => City::class,
