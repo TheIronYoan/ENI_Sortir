@@ -4,24 +4,37 @@
 
 {% block body %}
     <div class="contanier">
-        <h1>{{ Event.name }}</h1>
-        <p>Début: {{ Event.start|date('Y-m-d H:i') }}</p>
-        <p>Description: {{ Event.description }}</p>
-        <p>Durée: {{ Event.duration }} minutes</p>
-        <p>Maximum {{ Event.maxUsers }} personnes</p>
-        <p>Date limite d'inscription: {{ Event.signInLimit|date('Y-m-d H:i') }}</p>
-        <p>Etat:
-            {% if Event.start.timestamp>date().timestamp %}
-                {{ Event.getState().getLabel() }}
-            {% endif %}
-            {% if Event.start.timestamp<date().timestamp and Event.start|date_modify("+"~Event.duration~" minute").timestamp>date().timestamp %}
-                En Cours
-            {% endif %}
-            {% if Event.start.timestamp<date().timestamp and Event.start|date_modify("+"~Event.duration~" minute").timestamp<date().timestamp %}
-                Terminée
-            {% endif %}
-        </p>
-        </br>
+        <div class="form-row">
+            <h1>{{ Event.name }}</h1>
+            <div class="col">
+
+                <p>Début: {{ Event.start|date('Y-m-d H:i') }}</p>
+                <p>Description: {{ Event.description }}</p>
+                <p>Durée: {{ Event.duration }} minutes</p>
+                <p>Maximum {{ Event.maxUsers }} personnes</p>
+                <p>Date limite d'inscription: {{ Event.signInLimit|date('Y-m-d H:i') }}</p>
+                <p>Etat:
+                    {% if Event.start.timestamp>date().timestamp %}
+                        {{ Event.getState().getLabel() }}
+                    {% endif %}
+                    {% if Event.start.timestamp<date().timestamp and Event.start|date_modify("+"~Event.duration~" minute").timestamp>date().timestamp %}
+                        En Cours
+                    {% endif %}
+                    {% if Event.start.timestamp<date().timestamp and Event.start|date_modify("+"~Event.duration~" minute").timestamp<date().timestamp %}
+                        Terminée
+                    {% endif %}
+                </p>
+                </br>
+            </div>
+            <div class="col">
+                <p>Lieu: {{ Event.location.name }}</p>
+                <p>Rue: {{ Event.location.street }}</p>
+                <p>Ville: {{ Event.location.city.name }}</p>
+                <p>Code postal: {{ Event.location.city.postalCode }}</p>
+                <p>Latitude: {{ Event.location.latitude }}</p>
+                <p>Longitude: {{ Event.location.longitude }}</p>
+            </div>
+        </div>
         {%   if isOrganizer == false and isJoinable == true and Event.getState().getId()==2 %}
             {%   if isJoined == false %}
                 {{ form_start(eventForm) }}

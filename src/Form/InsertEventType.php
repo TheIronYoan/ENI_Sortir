@@ -30,12 +30,9 @@ class InsertEventType extends AbstractType
             ->add('signInLimit',DateTimeType::class,['label'=> 'Date limite d\'inscription' ])
             ->add('maxUsers', IntegerType::class,['label'=> 'Nombre maximum de participants' ])
             ->add('description', TextType::class)
-            ->add('state', ChoiceType::class,[
-                'choices' => ['Créée'=>new EventState(1,'Créée'),
-                    'Ouverte'=>new EventState(2,'Ouverte'),
-                    'Cloturée'=>new EventState(1,'Cloturée'),
-                    'Annulée'=>new EventState(1,'Annulée'),
-                ],
+            ->add('state', EntityType::class,[
+                'class' => EventState::class,
+                'choice_label' => 'label',
             ])
             ->add('location', EntityType::class, [
                 'class' => Location::class,

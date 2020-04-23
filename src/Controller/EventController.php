@@ -33,9 +33,6 @@ class EventController extends AbstractController
             if($event->getSignInLimit()<=$event->getStart()){
                 $organizer=$this->getUser();
                 $event->setOrganizer($organizer);
-                $stateRepo= $this->getDoctrine()->getRepository(EventState::class);
-                $event->setState($stateRepo->findOneBy(['id'=>$event->getState()->getId()]));
-
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
@@ -115,8 +112,6 @@ class EventController extends AbstractController
         $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()){
             if($event->getSignInLimit()<=$event->getStart()){
-                $stateRepo= $this->getDoctrine()->getRepository(EventState::class);
-                $event->setState($stateRepo->findOneBy(['id'=>$event->getState()->getId()]));
                 $em->persist($event);
                 $em->flush();
                 //return $this->redirectToRoute("index");
