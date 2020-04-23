@@ -13,6 +13,10 @@ class CampusFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $campus[]=['Eni Quimper','2 rue Georges Perros','1'];
+
+
+
 
         $campus=new Campus();
         $campus->setName('Campus de Quimper');
@@ -27,6 +31,6 @@ class CampusFixtures extends Fixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 3;
+        return 4;
     }
 }

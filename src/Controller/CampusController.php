@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CampusController extends AbstractController
 {
     /**
-     * @var CampusRepositoryRepository
+     * @var CampusRepository
      */
 
     private $repository;
@@ -32,33 +32,19 @@ class CampusController extends AbstractController
         $this->repository = $repository;
         $this->em = $em;
     }
-    /**
-     * @Route("/campus/create", name="campus_create")
-     */
-    public function create( Request $request
-                        )
-                {
-        $campus = new Campus();
-        $campusForm = $this->createForm(CampusType::class,$campus);
-        $campusForm->handleRequest($request);
-        if($campusForm->isSubmitted()){
-            $this->em->persist($campus);
-            $this->em->flush();
-            //return $this->redirectToRoute("index");
-            return $this->redirectToRoute("home");
-        }
 
-        return $this->render('campus/create.html.twig',[
-            "campusForm" =>$campusForm->createView()
-        ]);
-    }
 /**
- * @Route("/campus/edit", name="campus_edit")
+ * @Route("/campus/edit/{id<\d+>?0}}", name="campus_edit")
  */
     public function edit( $id,Request $request
     )
     {
-        $campus = $this->em->find($id);
+        if($id==0){
+            $campus = new campus;
+        }
+        else{
+            $campus = $this->repository->find($id);
+        }
 
         $campusForm = $this->createForm(CampusType::class,$campus);
         $campusForm->handleRequest($request);
@@ -69,7 +55,7 @@ class CampusController extends AbstractController
             return $this->redirectToRoute("home");
         }
 
-        return $this->render('campus/index.html.twig',[
+        return $this->render('campus/edit.html.twig',[
 
             'campus' => $campus,
             "campusForm" =>$campusForm->createView()

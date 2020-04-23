@@ -62,6 +62,18 @@
                         <tr>
                             <td>{{ u.username }}</td>
                             <td>{{ u.firstname }} {{ u.name }}</td>
+                            <td>
+                                <form method="get" action="{{ path('user_viewAnotherInfo')}}">
+                                    <input type="hidden" value="{{ u.username }}" name="username">
+                                    <input type="hidden" value="{{ u.firstname }}" name="firstname">
+                                    <input type="hidden" value="{{ u.name }}" name="name">
+                                    <input type="hidden" value="{{ u.phone }}" name="phone">
+                                    <input type="hidden" value="{{ u.email }}" name="email">
+                                    <input type="hidden" value="{{ u.campus }}" name="campus">
+
+                                    <button type="submit">info</button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

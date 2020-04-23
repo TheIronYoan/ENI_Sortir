@@ -60,8 +60,8 @@
                     Sites
                 </a>
             </li>        <li class="nav-item">
-            <a class="nav-link {% if app.request.attributes.get('_route') == 'admin' %}active" style="background-color: #f6f6f6;{% endif %}"
-               href="">
+            <a class="nav-link {% if app.request.attributes.get('_route') == '/admin/city/*' %}active" style="background-color: #f6f6f6;{% endif %}"
+               href="{{path('admin_city_list')}}">
                 Villes
             </a>
           </li>

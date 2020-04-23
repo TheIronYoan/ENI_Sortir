@@ -12,30 +12,32 @@ class LocationFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        //  Site localisation Campus Quimper
-
-        $quimperLoc=new Location();
-        $quimperLoc->setName('Site Quimper');
-        $quimperLoc->setStreet('2 rue Georges Perros');
-        $quimperLoc->setCity($manager->find(City::class,1));
-        $manager->persist($quimperLoc);
-
-
-
-        //  Site localisation Campus Quimper
-
-        $nantesLoc=new Location();
-        $nantesLoc->setName('Site Nantes');
-        $nantesLoc->setStreet('2 rue Georges Prros');
-        $nantesLoc->setCity($manager->find(City::class,2));
-        $manager->persist($nantesLoc);
+        $locations[]=['Eni Quimper','2 rue Georges Perros','','1'];
+        $locations[]=['Eni Chartes De Bretagne','8 rue Léo Lagrange ',' ZAC de la Conterie','2'];
+        $locations[]=['Eni Nantes','22 B rue Benjamin Franklin','ZAC du Moulin Neuf','5'];
+        $locations[]=['Eni Angers','6 rue Guillaume Lekeu','','6'];
+        $locations[]=['Eni Laval','8 rue de la commanderie ','','7'];
+        $locations[]=['Eni Le Mans','366 Avenue Georges Durand','','8'];
+        $locations[]=['Eni Niort','2 rue Georges Perros','','9'];
+        $locations[]=['Eni La Roche-sur-Yon','12 impasse Ampère ','','10'];
 
 
-        $manager->flush();
+        foreach ($locations as $location) {
+            $newLocations=new Location();
+            $newLocations->setName($location[0]);
+            $newLocations->setStreet($location[1]);
+            $newLocations->setAddrComplement($location[2]);
+            $newLocations->setCity($manager->find(City::class,$location[3]));
+            $manager->persist($newLocations);
+
+            $manager->flush();
+        }
+
+
     }
 
     public function getOrder()
     {
-        return 2;
+        return 3;
     }
 }

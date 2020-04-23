@@ -125,5 +125,26 @@ class UserController extends AbstractController
             return $this->redirectToRoute("user_checkPassword");
             }
     }
-
+    /**
+     * Class UserController
+     * @Route("/viewAnotherInfo", name="viewAnotherInfo")
+     */
+    public function viewAnotherInfo(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $encoder
+    )
+    {
+        $userToShow = new User();
+        $userToShow->setUsername($request->get('username'));
+        $userToShow->setFirstname($request->get('firstname'));
+        $userToShow->setName($request->get('name'));
+        $userToShow->setPhone($request->get('phone'));
+        $userToShow->setEmail($request->get('email'));
+        //mettre $request->get('campus') dans la méthode suivante quand les campus seront géré
+        $userToShow->setCampus(null);
+        return $this->render('user/viewAnotherUser.html.twig',[
+            'userToShow'=> $userToShow
+        ]);
+    }
 }
