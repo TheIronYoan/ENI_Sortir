@@ -13,19 +13,23 @@ class CampusFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $campus[]=['Eni Quimper','2 rue Georges Perros','1'];
+        $campus[]=['Quimper','1'];
+        $campus[]=['Chartes de Bretagne','2'];
+        $campus[]=['Nantes','3'];
+        $campus[]=['Angers','4'];
+        $campus[]=['Laval','1'];
+        $campus[]=['Le Mans','5'];
+        $campus[]=['Niort','6'];
+        $campus[]=['La Roche-sur-Yon','1'];
 
 
-
-
-        $campus=new Campus();
-        $campus->setName('Campus de Quimper');
-        $campus->setLocation($manager->find(Location::class,1));
-
-        $manager->persist($campus);
-
-        $manager->flush();
-
+        foreach ($campus as $campu) {
+            $newCampus=new Campus();
+            $newCampus->setName($campu[0]);
+            $newCampus->setLocation($manager->find(Location::class,$campu[1]));
+            $manager->persist($newCampus);
+            $manager->flush();
+        }
 
     }
 

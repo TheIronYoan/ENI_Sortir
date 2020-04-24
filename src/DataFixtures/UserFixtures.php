@@ -19,6 +19,12 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $phone=0601020304;
         $users[]=['Bruno','HUDBERT','bruno@me.fr','bruno',false];
         $users[]=['Bruno','HUDBERT','bhudbert@ironcrew.site','bhudbert',true];
+        $users[]=['Matthieu','GRELLIER','matthieu@me.fr','bruno',false];
+        $users[]=['Matthieu','GRELLIER','mgrellier@ironcrew.site','bhudbert',true];
+        $users[]=['Teddy','MARCHAND','teddy@me.fr','bruno',false];
+        $users[]=['Teddy','MARCHAND','tmarchand@ironcrew.site','bhudbert',true];
+        $users[]=['Yoan','COTTREL','yoan@me.fr','bruno',false];
+        $users[]=['Yoan','COTTREL','ycottrel@ironcrew.site','bhudbert',true];
 
 
 

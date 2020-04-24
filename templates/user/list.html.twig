@@ -8,20 +8,30 @@
     <div class="container" style="background-color: #f6f6f6;padding:15px;">
         <br>
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6 text-center">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 text-center">
            <table class="table">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col" colspan="3" class="text-center">Utilsateurs du site</th>
+                        <th scope="col" colspan="5" class="text-center">Utilsateurs du site</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     {% for user in users  %}
                         <tr class="bg-white">
-                            <td class="text-center">{{ user.id }}</td>
+                            <td class="text-center">{{ user.username }}</td>
+                            <td class="text-center">{{ user.firstname }}</td>
                             <td class="text-center">{{ user.name }}</td>
+                            <td class="text-center">
+
+                                {% if user.administrator  == true %}
+
+                                    <h5><span class="badge badge-danger">Admin</span></h5>
+                                {% else %}
+
+                                {% endif %}
+                            </td>
                             <td class="text-center"><a href="{{ path('admin_user_edit', { 'id': user.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
                         </tr>
                     {% endfor %}
