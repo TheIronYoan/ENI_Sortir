@@ -20,8 +20,8 @@
 
                     {% for city in cities  %}
                         <tr class="bg-white">
-                            <td class="text-center">{{ camp.name }}</td>
-                            <td class="text-center"><a href="{{ path('user_city_edit', { 'id': camp.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
+                            <td class="text-center">{{ city.name }}</td>
+                            <td class="text-center"><a href="{{ path('user_city_edit', { 'id': city.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
                         </tr>
                     {% endfor %}
                 </table>
