@@ -37,6 +37,10 @@
                 <div class="col-lg-12 text-center">
                     <input class="btn btn-secondary" type="submit">
                 </div>
+                <br> <br>
+                <div class="col-lg-12 text-center">
+                    <a href="{{ path('event_list') }}" class="btn btn-light btn-outline-primary" type="submit">Annuler le filtre</a>
+                </div>
                 {{ form_end(filterForm) }}
             </div>
 
@@ -50,7 +54,7 @@
         <br>
 
         <div class="container" style="background-color: #f6f6f6;padding:15px;">
-    <table border="1">
+    <table class="table">
         <thead>
         <tr>
             <th>Nom de la sortie</th>
@@ -70,8 +74,19 @@
                     <td>{{ e['event'].SignInLimit|date('Y-m-d H:i') }}</td>
                     <td>{{ e['count'] }}/{{ e['event'].MaxUsers }}</td>
                     <td>
-                        {% if e['event'].start.timestamp>date().timestamp %}
-                            {{ e['event'].getState().getLabel() }}
+                        {% if e['event'].start.timestamp>date().timestamp %}  {% if e['event'].getState().getId()==1 %}
+                        <h5><span class="badge badge-info">
+                        {% elseif e['event'].getState().getId()==2 %}
+                            <h5><span class="badge badge-success">
+                        {% elseif e['event'].getState().getId()==3 %}
+                            <h5><span class="badge badge-success">
+                        {% elseif e['event'].getState().getId()==4 %}
+                            <h5><span class="badge badge-danger">
+
+                        {% endif %}
+                                    {{ e['event'].getState().getLabel() }}
+                            </span>
+                        </h5>
                         {% endif %}
                         {% if e['event'].start.timestamp<date().timestamp and e['event'].start|date_modify("+"~e['event'].duration~" minute").timestamp>date().timestamp %}
                             En Cours
