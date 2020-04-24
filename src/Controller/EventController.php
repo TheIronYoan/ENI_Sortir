@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\EventFilter;
 use App\Entity\User;
 use App\Entity\EventState;
+use App\Form\EventFilterCampusType;
 use App\Form\EventFilterType;
 use App\Form\EventRegisterType;
 use App\Form\InsertEventType;
@@ -66,7 +67,13 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(EventFilterType::class,$eventFilter);
         $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()){
-            $dql.= $this->commonFilter($eventForm);
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
+            }
+            $dql.=$this->commonFilter($eventForm);
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
+            }
             if($eventForm['organizedEvent']->GetData()===false){
                 $dql.=" AND e.organizer != '".$this->getUser()->getId()."'";
             }
@@ -93,6 +100,56 @@ class EventController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/user/campus/event/list", name="user_campus_event_list")
+     */
+    public function listCampusEvents(Request $request,EntityManagerInterface $em)
+    {
+        if($this->getUser()==null){
+            return $this->redirectToRoute("event_list");
+        }
+
+        $dql="SELECT e as event,COUNT(u) as count FROM App\Entity\Event e ";
+        $dql.=" LEFT JOIN e.organizer u ";
+
+        $showJoined=true;
+        $showJoinable=true;
+        $eventFilter=new EventFilter();
+        $eventForm = $this->createForm(EventFilterCampusType::class,$eventFilter);
+        $eventForm->handleRequest($request);
+        if($eventForm->isSubmitted()){
+            if($eventForm['campus']->GetData()->getId()!=0){
+                $dql.=" INNER JOIN u.campus c ";
+            }
+            $dql.=$this->commonFilter($eventForm);
+            if($eventForm['campus']->GetData()->getId()!=0){
+                $dql.=" AND c.id = '".$eventForm['campus']->GetData()->getId()."'";
+            }
+            if($eventForm['organizedEvent']->GetData()===false){
+                $dql.=" AND e.organizer != '".$this->getUser()->getId()."'";
+            }
+
+            if($eventForm['joinedEvent']->GetData()===false){
+                $showJoined=false;
+            }
+            if($eventForm['joinableEvent']->GetData()===false){
+                $showJoinable=false;
+            }
+        }
+        $dql.=" GROUP BY e.id";
+        $query = $em -> createQuery($dql);
+        $events = $query->getResult();
+
+
+
+        return $this->render("/event/listCampusEvent.html.twig",[
+            "events"=>$events,
+            "userId"=>$this->getUser()->getId(),
+            "showJoined"=>$showJoined,
+            "showJoinable"=>$showJoinable,
+            "filterForm"=>$eventForm->createView(),
+        ]);
+    }
 
     /**
      * @Route("/user/event/edit/{id}", name="user_event_edit")
@@ -142,7 +199,13 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(EventFilterType::class,$eventFilter);
         $eventForm->handleRequest($request);
         if($eventForm->isSubmitted()){
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
+            }
             $dql.=$this->commonFilter($eventForm);
+            if($eventForm['city']->GetData()->getId()!=0){
+                $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
+            }
         }
         $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
@@ -220,16 +283,12 @@ class EventController extends AbstractController
 
     public function commonFilter($eventForm){
         $dql="";
-        if($eventForm['city']->GetData()->getId()!=0){
-            $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
-        }
+
         $dql.="WHERE DATE_ADD(e.start,1,'month') > CURRENT_DATE() ";
         if(strlen($eventForm['searchZone']->GetData())>0){
             $dql.=" AND e.name LIKE '".$eventForm['searchZone']->GetData()."%'";
         }
-        if($eventForm['city']->GetData()->getId()!=0){
-            $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
-        }
+
         if($eventForm['dateBegin']->GetData()!=null){
             $dql.=" AND e.start > '".$eventForm['dateBegin']->GetData()->format('Y-m-d H:i')."'";
         }

@@ -26,7 +26,7 @@ class InsertEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class,['label'=> 'Nom' ])
+            ->add('name', TextType::class)
             ->add('start',DateTimeType::class,['label'=> 'Débute le' ])
             ->add('duration', IntegerType::class,['label'=> 'Durée' ])
             ->add('signInLimit',DateTimeType::class,['label'=> 'Date limite d\'inscription' ])
@@ -39,13 +39,8 @@ class InsertEventType extends AbstractType
             ->add('location', EntityType::class, [
                 'class' => Location::class,
                 'choice_label' => 'name',
-
             ])
         ;
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-            $form->add('name', TextType::class);
-        });
     }
 }

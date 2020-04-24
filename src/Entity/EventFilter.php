@@ -18,6 +18,11 @@ class EventFilter
     private $city;
 
     /**
+     * @var Campus|null
+     */
+    private $campus;
+
+    /**
      * @var \DateTime|null
      */
     private $dateBegin;
@@ -77,6 +82,22 @@ class EventFilter
     public function setCity($city): void
     {
         $this->city = $city;
+    }
+
+    /**
+     * @return Campus|null
+     */
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    /**
+     * @param Campus $campus
+     */
+    public function setCampus($campus): void
+    {
+        $this->campus = $campus;
     }
 
     /**

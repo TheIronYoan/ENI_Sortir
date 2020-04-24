@@ -1,0 +1,133 @@
+{% extends 'event/base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block bodyevent %}
+    <br>
+
+    <div class="container">
+        <h2 class="text-center ironh2"> Trouver une sortie </h2>
+        <br>
+
+        <div class="container" style="background-color: #f6f6f6;padding:15px;">
+
+            {{ form_start(filterForm) }}
+            {{ form_errors(filterForm) }}
+            <div class="row">
+                <div class="col-lg-4">
+                    {{ form_row (filterForm.searchZone) }}
+                    {{ form_row (filterForm.campus) }}
+                </div>
+                <div class="col-lg-4">
+
+                    {{ form_row (filterForm.dateBegin) }}
+
+                    {{ form_row (filterForm.dateEnd) }}
+                </div>
+
+                <div class="col-lg-4">
+                    <br>
+                    {{ form_row (filterForm.organizedEvent) }}
+                    {{ form_row (filterForm.joinedEvent) }}
+                    {{ form_row (filterForm.joinableEvent) }}
+                    {{ form_row (filterForm.pastEvent) }}
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <input class="btn btn-secondary" type="submit">
+                </div>
+                {{ form_end(filterForm) }}
+            </div>
+
+            <br>
+
+        </div>
+
+
+        <br>
+        <h2 class="text-center ironh2"> Liste des Sorties</h2>
+        <br>
+
+        <div class="container" style="background-color: #f6f6f6;padding:15px;">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>clôture</th>
+                    <th>Inscrits/place</th>
+                    <th>Etat</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for e in events%}
+                    {% set show=true %}
+                    {% if e['event'].organizer.id !=userId %}
+                        {% for p in e['event'].users %}
+                            {% if p.id==userId and showJoined==false%}
+                                {% set show=false %}
+                            {% endif %}
+                            {% set isIn=false %}
+                            {% if p.id==userId %}
+                                {% set isIn=true %}
+                            {% endif %}
+                            {% if isIn==false and showJoinable==false %}
+                                {% set show=false %}
+                            {% endif %}
+
+                        {% endfor %}
+                        {% if e['event'].users|length <= 0 and showJoinable==false %}
+                            {% set show=false %}
+                        {% endif %}
+                    {% endif %}
+                    {% if show==true %}
+                        <tr>
+                            <td>{{ e['event'].name }}</td>
+                            <td>{{ e['event'].start|date('Y-m-d H:i') }}</td>
+                            <td>{{ e['event'].SignInLimit|date('Y-m-d H:i') }}</td>
+                            <td>{{ e['count'] }}/{{ e['event'].MaxUsers }}</td>
+                            <td>
+                                {% if e['event'].start.timestamp>date().timestamp %}
+                                    {{ e['event'].getState().getLabel() }}
+                                {% endif %}
+                                {% if e['event'].start.timestamp<date().timestamp and e['event'].start|date_modify("+"~e['event'].duration~" minute").timestamp>date().timestamp %}
+                                    En Cours
+                                {% endif %}
+                                {% if e['event'].start.timestamp<date().timestamp and e['event'].start|date_modify("+"~e['event'].duration~" minute").timestamp<date().timestamp %}
+                                    Terminée
+                                {% endif %}
+                            </td>
+                            <td>{% for p in e['event'].users %}
+                                    {% if p.id==userId %}
+                                        X
+                                    {% endif %}
+                                {% endfor %}</td>
+                            <td>{{ e['event'].organizer.name }}  {{ e['event'].organizer.firstname }}</td>
+                            <td><a href="{{ path('event_show', { 'id': e['event'].id }) }}">Afficher
+                                    {% for p in e['event'].users %}
+                                        {% if p.id==userId %}
+                                            - Se Desister
+                                        {% endif %}
+                                    {% endfor %}</a>
+                                {% if e['event'].organizer.id==userId %}
+                                    -
+                                    <a href="{{ path('user_event_edit', { 'id': e['event'].id }) }}">Modifier</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-primary" href="{{ path('user_event_create') }}">Créer une sortie</a>
+        </div>
+    </div>
+
+{% endblock %}
