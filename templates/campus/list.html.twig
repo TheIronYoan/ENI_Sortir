@@ -13,14 +13,13 @@
            <table class="table">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col" colspan="3" class="text-center">Campus ENI</th>
+                        <th scope="col" colspan="2" class="text-center">Campus ENI</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     {% for camp in campus  %}
                         <tr class="bg-white">
-                            <td class="text-center">{{ camp.id }}</td>
                             <td class="text-center">{{ camp.name }}</td>
                             <td class="text-center"><a href="{{ path('admin_campus_edit', { 'id': camp.id }) }}" class="btn btn-light btn-outline-primary">Editer</a></td>
                         </tr>

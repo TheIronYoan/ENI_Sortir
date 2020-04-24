@@ -42,7 +42,7 @@ class CityController extends AbstractController
     {
         $cities = $this->repository->findAll();
         return $this->render('city/list.html.twig', [
-            'campus' => $cities,
+            '$cities' => $cities,
         ]);
     }
 

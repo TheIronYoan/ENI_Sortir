@@ -1,12 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'event/base.html.twig' %}
 
 {% block title %}Bienvenue{% endblock %}
 
-{% block body %}
-    <div class="contanier">
-        <div class="form-row">
-            <h1>{{ Event.name }}</h1>
-            <div class="col">
+{% block bodyevent %}
+    <br>
+
+    <div class="container">
+        <h2 class="text-center ironh2"> {{ Event.name }} </h2>
+        <br>
+
+        <div class="row" style="background-color: #f6f6f6;padding:15px;">
+
+            <div class="col-md-6" >
 
                 <p>Début: {{ Event.start|date('Y-m-d H:i') }}</p>
                 <p>Description: {{ Event.description }}</p>
@@ -26,7 +31,7 @@
                 </p>
                 </br>
             </div>
-            <div class="col">
+            <div class="col-md-6" >
                 <p>Lieu: {{ Event.location.name }}</p>
                 <p>Rue: {{ Event.location.street }}</p>
                 <p>Ville: {{ Event.location.city.name }}</p>

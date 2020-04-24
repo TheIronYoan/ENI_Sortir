@@ -106,7 +106,10 @@
                 </td>
                 <td>{% for p in e['event'].users %}
                     {% if p.id==userId %}
-                        X
+
+                        <h5><span class="badge badge-success">inscrit</span></h5>
+
+
                         {% endif %}
                 {% endfor %}</td>
                 <td>{{ e['event'].organizer.name }}  {{ e['event'].organizer.firstname }}</td>
