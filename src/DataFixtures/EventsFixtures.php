@@ -14,9 +14,8 @@ class EventsFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $events[]=['Revision en groupe','1','2020-05-11 00:00:00','10','2020-05-01 00:00:00','4','2','10','Sortie revision car Symfony c\'est pas si simple'];
-        $events[]=['Forum emploi','1','2020-05-11 00:00:00','10','2020-04-28 00:00:00','4','2','10','Venez rencontrer votre futur employeur ou futur entreprise de stage'];
-
+        $events[]=['Revision en groupe','1','2020-04-11 00:00:00','10','2020-05-01 00:00:00','4','2','10','Sortie revision car Symfony c\'est pas si simple'];
+        $events[]=['Forum emploi','1','2020-04-22 00:00:00','10','2020-04-28 00:00:00','4','2','10','Venez rencontrer votre futur employeur ou futur entreprise de stage'];
         $events[]=['Deconfinement','1','2020-05-11 00:00:00','10','2020-05-10 00:00:00','2','2','10','Pouvoir sor c\'est deja pas si mal'];
         $events[]=['Sortie Ski','3','2020-05-08 00:00:00','10','2020-05-10 00:00:00','2','14','10','Faire du ski ici et en ce moment c\'est forcement proposé par Yoan'];
         $events[]=['Terre cuite','3','2020-05-08 00:00:00','10','2020-05-10 00:00:00','2','14','10','Visite des statuts de terre cuite , guidée par Yoan'];
