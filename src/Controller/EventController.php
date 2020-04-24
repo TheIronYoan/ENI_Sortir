@@ -71,6 +71,7 @@ class EventController extends AbstractController
                 $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
             }
             $dql.=$this->commonFilter($eventForm);
+            $dql.=" AND (e.organizer = '".$this->getUser()->getId()."' OR e.state!=1)";
             if($eventForm['city']->GetData()->getId()!=0){
                 $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
             }
@@ -122,6 +123,7 @@ class EventController extends AbstractController
                 $dql.=" INNER JOIN u.campus c ";
             }
             $dql.=$this->commonFilter($eventForm);
+            $dql.=" AND (e.organizer = '".$this->getUser()->getId()."' OR e.state!=1)";
             if($eventForm['campus']->GetData()->getId()!=0){
                 $dql.=" AND c.id = '".$eventForm['campus']->GetData()->getId()."'";
             }
