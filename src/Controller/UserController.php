@@ -165,6 +165,7 @@ class UserController extends AbstractController
         $userToShow->setName($request->get('name'));
         $userToShow->setPhone($request->get('phone'));
         $userToShow->setEmail($request->get('email'));
+        $userToShow->setIllustration($request->get('image'));
         //mettre $request->get('campus') dans la méthode suivante quand les campus seront géré
         $userToShow->setCampus(null);
         return $this->render('user/viewAnotherUser.html.twig',[
