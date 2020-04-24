@@ -95,7 +95,22 @@
                 <td>{{ e['count'] }}/{{ e['event'].MaxUsers }}</td>
                 <td>
                     {% if e['event'].start.timestamp>date().timestamp %}
-                        {{ e['event'].getState().getLabel() }}
+
+                        {% if e['event'].getState().getId()==1 %}
+                            <h5><span class="badge badge-info">
+                        {% elseif e['event'].getState().getId()==2 %}
+                            <h5><span class="badge badge-success">
+                        {% elseif e['event'].getState().getId()==3 %}
+                            <h5><span class="badge badge-success">
+                        {% elseif e['event'].getState().getId()==4 %}
+                            <h5><span class="badge badge-danger">
+
+                        {% endif %}
+                              {{ e['event'].getState().getLabel() }}
+                            </span>
+                        </h5>
+
+
                     {% endif %}
                     {% if e['event'].start.timestamp<date().timestamp and e['event'].start|date_modify("+"~e['event'].duration~" minute").timestamp>date().timestamp %}
                         En Cours
