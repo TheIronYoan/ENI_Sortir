@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RegisterType extends AbstractType
+class EditUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -34,7 +34,7 @@ class RegisterType extends AbstractType
                 'second_options' => ['label' => 'Confirmation mot de passe'],
             ])
             ->add('phone',null,['label'    => 'Téléphone'])
-
+            ->add('administrator',CheckboxType::class, ['label' => 'Administrateur', 'required'   => false, ] )
         ;
     }
 

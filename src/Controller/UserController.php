@@ -7,7 +7,8 @@ use App\Form\ChangePasswordType;
 use App\Form\CheckPasswordType;
 use App\Form\RegisterType;
 
-use App\Form\RegisterTypetType;
+
+use App\Form\EditUserType;
 use App\Form\UserInfoType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -182,7 +183,7 @@ class UserController extends AbstractController
     else{
         $user= $this->repository->find($id);
     }
-        $userForm = $this->createForm(UserInfoType::class,$user);
+        $userForm = $this->createForm(EditUserType::class,$user);
         $userForm->handleRequest($request);
         if($userForm->isSubmitted() && $userForm->isValid()){
             $hashed=$encoder->encodePassword($user,$user->getPassword());
