@@ -71,7 +71,7 @@ class EventController extends AbstractController
                 $dql.=" LEFT JOIN e.location l LEFT JOIN l.city c ";
             }
             $dql.=$this->commonFilter($eventForm);
-            $dql.=" AND (e.organizer = '".$this->getUser()->getId()."' OR e.state!=1)";
+
             if($eventForm['city']->GetData()->getId()!=0){
                 $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
             }
@@ -85,7 +85,11 @@ class EventController extends AbstractController
             if($eventForm['joinableEvent']->GetData()===false){
                 $showJoinable=false;
             }
+            $dql.=" AND ";
+        }else{
+            $dql.=" WHERE ";
         }
+        $dql.=" (e.organizer = '".$this->getUser()->getId()."' OR e.state!=1)";
         $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
         $events = $query->getResult();
@@ -123,7 +127,7 @@ class EventController extends AbstractController
                 $dql.=" INNER JOIN u.campus c ";
             }
             $dql.=$this->commonFilter($eventForm);
-            $dql.=" AND (e.organizer = '".$this->getUser()->getId()."' OR e.state!=1)";
+
             if($eventForm['campus']->GetData()->getId()!=0){
                 $dql.=" AND c.id = '".$eventForm['campus']->GetData()->getId()."'";
             }
@@ -137,7 +141,11 @@ class EventController extends AbstractController
             if($eventForm['joinableEvent']->GetData()===false){
                 $showJoinable=false;
             }
+            $dql.=" AND ";
+        }else{
+            $dql.=" WHERE ";
         }
+        $dql.=" (e.organizer = '".$this->getUser()->getId()."' OR e.state!=1)";
         $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
         $events = $query->getResult();
