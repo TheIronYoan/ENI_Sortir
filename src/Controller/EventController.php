@@ -195,6 +195,45 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("/campus/event/list", name="campus_event_list")
+     */
+    public function noUserCampusListEvents(Request $request,EntityManagerInterface $em)
+    {
+        if($this->getUser()!=null){
+            return $this->redirectToRoute("user_campus_event_list");
+        }
+        $dql="SELECT e as event,COUNT(u) as count FROM App\Entity\Event e ";
+        $dql.=" LEFT JOIN e.users u ";
+
+        $eventFilter=new EventFilter();
+        $eventForm = $this->createForm(EventFilterCampusType::class,$eventFilter);
+        $eventForm->handleRequest($request);
+        if($eventForm->isSubmitted()){
+            if($eventForm['campus']->GetData()->getId()!=0){
+                $dql.=" INNER JOIN u.campus c ";
+            }
+            $dql.=$this->commonFilter($eventForm);
+            if($eventForm['campus']->GetData()->getId()!=0){
+                $dql.=" AND c.id = '".$eventForm['campus']->GetData()->getId()."'";
+            }
+            $dql.=" AND ";
+        }else{
+            $dql.=" WHERE ";
+        }
+        $dql.=" e.state!=1 ";
+        $dql.=" GROUP BY e.id";
+        $query = $em -> createQuery($dql);
+        $events = $query->getResult();
+
+
+
+        return $this->render("/event/noUserCampusListEvent.html.twig",[
+            "events"=>$events,
+            "filterForm"=>$eventForm->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/event/list", name="event_list")
      */
     public function noUserListEvents(Request $request,EntityManagerInterface $em)
@@ -216,7 +255,11 @@ class EventController extends AbstractController
             if($eventForm['city']->GetData()->getId()!=0){
                 $dql.=" AND c.id = '".$eventForm['city']->GetData()->getId()."'";
             }
+            $dql.=" AND ";
+        }else{
+            $dql.=" WHERE ";
         }
+        $dql.=" e.state!=1 ";
         $dql.=" GROUP BY e.id";
         $query = $em -> createQuery($dql);
         $events = $query->getResult();
