@@ -71,7 +71,8 @@ class MainController extends AbstractController
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
+            return $newFilename;
         }
-        return $newFilename;
+        return;
     }
 }
