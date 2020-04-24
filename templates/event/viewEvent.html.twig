@@ -55,7 +55,7 @@
         {% if isJoinable == false or Event.getState().getId()!=2 %}
             Il n'est plus possible de s'inscrire a cette sortie.
         {% endif %}
-        {%   if isOrganizer == true and Event.users|length > 0 %}
+        {%   if Event.users|length > 0 %}
             <h2>Liste des participants inscrits:</h2>
             <table border="1">
                 <thead>
@@ -74,7 +74,7 @@
                                     <input type="hidden" value="{{ u.name }}" name="name">
                                     <input type="hidden" value="{{ u.phone }}" name="phone">
                                     <input type="hidden" value="{{ u.email }}" name="email">
-                                    <input type="hidden" value="{{ u.campus }}" name="campus">
+                                    <input type="hidden" value="{{ u.campus.name }}" name="campus">
                                     <input type="hidden" value="{{ u.illustration }}" name="image">
 
 

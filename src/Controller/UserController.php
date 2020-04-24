@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use App\Form\CheckPasswordType;
@@ -166,8 +167,9 @@ class UserController extends AbstractController
         $userToShow->setPhone($request->get('phone'));
         $userToShow->setEmail($request->get('email'));
         $userToShow->setIllustration($request->get('image'));
-        //mettre $request->get('campus') dans la méthode suivante quand les campus seront géré
-        $userToShow->setCampus(null);
+        $campus=new Campus();
+        $campus->setName($request->get('campus'));
+        $userToShow->setCampus($campus);
         return $this->render('user/viewAnotherUser.html.twig',[
             'userToShow'=> $userToShow
         ]);
