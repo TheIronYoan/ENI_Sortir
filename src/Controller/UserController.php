@@ -15,11 +15,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class UserController extends AbstractController
@@ -63,13 +65,17 @@ class UserController extends AbstractController
     public function showInfo(
                         Request $request,
                         EntityManagerInterface $em,
-                        UserPasswordEncoderInterface $encoder
+                        UserPasswordEncoderInterface $encoder,
+                        SluggerInterface $slugger
                         )
     {
         $user= $this->getUser();
         $userForm = $this->createForm(UserInfoType::class,$user);
         $userForm->handleRequest($request);
          if($userForm->isSubmitted() && $userForm->isValid()){
+             //Illustration
+             $user->setIllustration($this->buildImage($userForm,$slugger));
+
              $hashed=$encoder->encodePassword($user,$user->getPassword());
              $user->setPassword($hashed);
              $em->persist($user);
@@ -79,7 +85,8 @@ class UserController extends AbstractController
          }
 
         return $this->render('user/showUserInfo.html.twig',[
-            "userForm" =>$userForm->createView()
+            "userForm" =>$userForm->createView(),
+            "user" => $user
         ]);
     }
     /**
@@ -215,4 +222,23 @@ class UserController extends AbstractController
     }
 
 
+    public function buildImage( $userform,SluggerInterface $slugger){
+        $illustrationFile = $userform->get('illustration')->getData();
+        if($illustrationFile!=null){
+            $originalFilename = pathinfo($illustrationFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$illustrationFile->guessExtension();
+            try {
+                $illustrationFile->move(
+                    $this->getParameter('illustration_directory'),
+                    $newFilename
+                );
+
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+        }
+        return $newFilename;
+    }
 }
