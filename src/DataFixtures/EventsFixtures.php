@@ -17,13 +17,13 @@ class EventsFixtures extends Fixture implements OrderedFixtureInterface
         $events[]=['Revision en groupe','1','2020-05-11 00:00:00','10','2020-05-01 00:00:00','4','2','10','Sortie revision car Symfony c\'est pas si simple'];
         $events[]=['Forum emploi','1','2020-05-11 00:00:00','10','2020-04-28 00:00:00','4','2','10','Venez rencontrer votre futur employeur ou futur entreprise de stage'];
 
-        $events[]=['Deconfinement','1','2020-05-11 00:00:00','10','2020-05-10 00:00:00','1','2','10','Pouvoir sor c\'est deja pas si mal'];
-        $events[]=['Sortie Ski','3','2020-05-08 00:00:00','10','2020-05-10 00:00:00','1','5','10','Faire du ski ici et en ce moment c\'est forcement proposé par Yoan'];
-        $events[]=['Terre cuite','3','2020-05-08 00:00:00','10','2020-05-10 00:00:00','1','10','10','Visite des statuts de terre cuite , guidée par Yoan'];
-        $events[]=['Festival','1','2020-06-27 00:00:00','10','2020-05-10 00:00:00','1','5','1000','Plein de gens font du bruit , y en a meme qui fonc de la musique'];
-        $events[]=['Plage Normandie','2','2020-06-16 00:00:00','10','2020-06-01 00:00:00','1','5','100','La sortie pour se se souvenir et se rendre compte'];
-        $events[]=['Sortie Zenith','3','2021-01-11 00:00:00','10','2020-05-10 00:00:00','1','8','10','Il finira bien par y avoir des concerts a nouveau un jour'];
-        $events[]=['Sortie Plage','10','2020-07-13 00:00:00','10','2020-05-10 00:00:00','1','5','10','Si vous n\'avez pas de stage , venez nous rejoindre a la plage'];
+        $events[]=['Deconfinement','1','2020-05-11 00:00:00','10','2020-05-10 00:00:00','2','2','10','Pouvoir sor c\'est deja pas si mal'];
+        $events[]=['Sortie Ski','3','2020-05-08 00:00:00','10','2020-05-10 00:00:00','2','14','10','Faire du ski ici et en ce moment c\'est forcement proposé par Yoan'];
+        $events[]=['Terre cuite','3','2020-05-08 00:00:00','10','2020-05-10 00:00:00','2','14','10','Visite des statuts de terre cuite , guidée par Yoan'];
+        $events[]=['Festival','1','2020-06-27 00:00:00','10','2020-05-10 00:00:00','2','9','1000','Plein de gens font du bruit , y en a meme qui fonc de la musique'];
+        $events[]=['Plage Normandie','2','2020-06-16 00:00:00','10','2020-06-01 00:00:00','2','3','100','La sortie pour se se souvenir et se rendre compte'];
+        $events[]=['Sortie Zenith','3','2021-01-11 00:00:00','10','2020-05-10 00:00:00','2','3','10','Il finira bien par y avoir des concerts a nouveau un jour'];
+        $events[]=['Sortie Plage','10','2020-07-13 00:00:00','10','2020-05-10 00:00:00','3','14','10','Si vous n\'avez pas de stage , venez nous rejoindre a la plage'];
 
         foreach ($events as $event) {
 
